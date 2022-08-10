@@ -1,18 +1,11 @@
-<script setup lang="ts">
-import { WalletMultiButton } from 'solana-wallets-vue'
-</script>
-
 <template>
-  <div class="greetings">
-   <wallet-multi-button></wallet-multi-button>
+  <div class="walletButton">
+   <WalletMulitWallet></WalletMulitWallet>
   </div>
 </template>
 
 <script lang="ts">
-import App from './App.vue';
-import SolanaWallets from 'solana-wallets-vue';
-
-// You can either import the default styles or create your own.
+import SolanaWallets, { initWallet } from 'solana-wallets-vue';
 import 'solana-wallets-vue/styles.css';
 
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"
@@ -22,6 +15,12 @@ import {
   SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 
+import { WalletMultiButton } from 'solana-wallets-vue'
+
+export default {
+  components: {WalletMultiButton}
+}
+
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
@@ -29,12 +28,10 @@ const walletOptions = {
   ],
   autoConnect: true,
 }
-
-import { initWallet } from 'solana-wallets-vue';
 initWallet(walletOptions);
 </script>
 
-<style scoped>
+<style>
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
@@ -45,15 +42,9 @@ h3 {
   font-size: 1.2rem;
 }
 
-.greetings h1,
-.greetings h3 {
-  text-align: center;
+.walletButton {
+  width: 100%;
+  text-align: right;
 }
 
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
 </style>
