@@ -1,9 +1,19 @@
-<script setup lang="ts">
-import TheWelcome from "@/components/TheWelcome.vue";
-</script>
-
 <template>
   <main>
-    <TheWelcome />
+    <NotifiHeader />
+    <SubscribeForm />
   </main>
 </template>
+
+<script>
+import NotifiHeader from '../components/NotifiHeader.vue';
+import SubscribeForm from '../components/SubscribeForm.vue';
+
+
+export default {
+  components: {NotifiHeader, SubscribeForm}
+}
+
+</script>
+
+
