@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="metaInfo">
-      <div id="dappId"><label>Dapp ID:</label>{{ dappID }}</div>
+      <div id="dappId"><label>Dapp ID:</label> {{ dappID }}</div>
       <div id="devEnvironment">
         <label>Environment:</label> {{ devEnvironment }}
       </div>
