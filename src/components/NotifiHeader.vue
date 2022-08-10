@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
 
 export default {

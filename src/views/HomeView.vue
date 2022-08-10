@@ -5,7 +5,7 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import NotifiHeader from '../components/NotifiHeader.vue';
 import SubscribeForm from '../components/SubscribeForm.vue';
 
