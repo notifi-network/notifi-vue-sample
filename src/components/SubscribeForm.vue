@@ -3,23 +3,39 @@
     <div class="communicationChannels">
       <div>
         <label for="email">Email:</label>
-        <input type="text" label="Email" />
+        <input type="text" label="Email" v-model="emailAddress" />
       </div>
       <div>
         <label for="name">Telegram Id:</label>
-        <input type="text" label="TelegramId" />
+        <input type="text" label="TelegramId" v-model="telegramId" />
       </div>
     </div>
     <div class="subscriptions">
       <label for="name">Subscribe to Notifi Announcements:</label>
-      <input type="checkbox" checked>
-      <span class="slider"></span>
+      <InputSwitch v-model="isSwitched" />
     </div>
     <div>
-      <md-button class="subscribeButton">Subscribe</md-button>
+      <Button class="p-button-raised p-button-rounded p-button-lg" label="Subscribe" />
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import InputSwitch from 'primevue/inputswitch';
+import Button from 'primevue/button';
+
+export default {
+    data() {
+      return {
+       emailAddress: '',
+       telegramId: '',
+       isSwitched: true,
+     }
+    },
+    components: {InputSwitch, Button}
+}
+</script>
+
 
 <style scoped>
 input {
@@ -35,17 +51,5 @@ input {
   flex-direction: column;
   gap: 40px;
   color: black;
-}
-
-.subscribeButton {
-  background-color: #ff7f50; /*coral*/
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 4px;
 }
 </style>

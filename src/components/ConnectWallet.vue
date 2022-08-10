@@ -1,6 +1,6 @@
 <template>
   <div class="walletButton">
-   <WalletMulitWallet></WalletMulitWallet>
+   <wallet-multi-button dark></wallet-multi-button>
   </div>
 </template>
 
@@ -17,34 +17,17 @@ import {
 
 import { WalletMultiButton } from 'solana-wallets-vue'
 
-export default {
-  components: {WalletMultiButton}
-}
-
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
   ],
-  autoConnect: true,
+  autoConnect: false,
 }
 initWallet(walletOptions);
+
+export default {
+  components: {WalletMultiButton}
+}
+
 </script>
-
-<style>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  top: -10px;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-
-.walletButton {
-  width: 100%;
-  text-align: right;
-}
-
-</style>

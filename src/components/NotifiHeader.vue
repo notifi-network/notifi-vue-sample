@@ -1,12 +1,12 @@
 <template>
   <div class="header">
     <div class="metaInfo">
-      <div id="dappId"><label>Dapp ID:</label> {{ dappID }}</div>
+      <div id="dappId"><label>Dapp ID:</label>{{ dappID }}</div>
       <div id="devEnvironment">
-        <label>Dev Environment:</label> {{ devEnvironment }}
+        <label>Environment:</label> {{ devEnvironment }}
       </div>
     </div>
-    <WalletMulitWallet></WalletMulitWallet>
+    <ConnectWallet></ConnectWallet>
   </div>
 </template>
 
@@ -25,12 +25,24 @@ export default {
 </script>
 
 <style scoped>
+.metaInfo {
+ display: flex;
+ flex-direction: row;
+ gap: 20px;
+}
+
 .header {
   display: flex;
-  flex-direction: "row";
-  justify-content: "flex-end";
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   color: black;
+  margin-bottom: 50px;
+}
+
+#dappId, #devEnvironment {
+  display: inline-block;
+  white-space: nowrap;
 }
 </style>
