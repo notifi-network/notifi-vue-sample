@@ -12,7 +12,7 @@
     </div>
     <div class="subscriptions">
       <label for="name">Subscribe to Notifi Announcements:</label>
-      <InputSwitch v-model="isSwitched" />
+      <InputSwitch v-model="isSubscribed" />
     </div>
     <div>
       <Button class="p-button-raised p-button-rounded p-button-lg" label="Subscribe" />
@@ -23,19 +23,16 @@
 <script lang="ts">
 import InputSwitch from 'primevue/inputswitch';
 import Button from 'primevue/button';
+import {mapState} from 'vuex';
 
 export default {
-    data() {
-      return {
-       emailAddress: '',
-       telegramId: '',
-       isSwitched: true,
-     }
+    computed: {
+       ...mapState({emailAddress: 'emailAddress', telegramId: 'telegramId', isSubscribed: 'isSubscribed'})
     },
     components: {InputSwitch, Button}
 }
-</script>
 
+</script>
 
 <style scoped>
 input {

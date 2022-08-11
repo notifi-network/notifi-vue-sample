@@ -6,12 +6,12 @@ import PrimeVue from 'primevue/config';
 import router from "./router";
 
 import "./assets/main.css";
+import store from './store';
 
-const app = createApp(App);
+const app = createApp(App).use(store);
 
 app.use(PrimeVue);
 app.use(createPinia());
 app.use(router);
-
 
 app.mount("#app");

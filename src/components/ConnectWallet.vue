@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import SolanaWallets, { initWallet } from 'solana-wallets-vue';
+import { initWallet } from 'solana-wallets-vue';
 import 'solana-wallets-vue/styles.css';
 
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"

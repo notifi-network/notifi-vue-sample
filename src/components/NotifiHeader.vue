@@ -1,24 +1,22 @@
 <template>
   <div class="header">
     <div class="metaInfo">
-      <div id="dappId"><label>Dapp ID:</label> {{ dappID }}</div>
+      <div id="dappAddress"><label>Dapp ID:</label> {{ dappAddress }}</div>
       <div id="devEnvironment">
-        <label>Environment:</label> {{ devEnvironment }}
+        <label>Environment:</label> {{ notifiEnvironment }}
       </div>
     </div>
     <ConnectWallet></ConnectWallet>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
+import { mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      dappID: "ASK-NOTIFI-FOR-DAPP-ID",
-      devEnvironment: "development",
-    };
+  computed: {
+    ...mapState({ dappAddress: 'dappAddress', notifiEnvironment: 'notifiEnvironment'})
   },
   components: { ConnectWallet },
 };

@@ -2,17 +2,18 @@
   "name": "notifi-sdk-vue",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
     "build": "run-p type-check build-only",
-    "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "dev": "vite",
+    "preview": "vite preview --port 4173",
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
     "@notifi-network/notifi-axios-adapter": "^0.30.0",
     "@notifi-network/notifi-axios-utils": "^0.30.0",
+    "@notifi-network/notifi-core": "^0.30.0",
     "@solana-mobile/wallet-adapter-mobile": "^0.0.1-alpha.8",
     "@solana/wallet-adapter-base": "^0.9.9",
     "@solana/wallet-adapter-vue": "^0.4.5",
@@ -24,7 +25,8 @@
     "react": "^18.2.0",
     "solana-wallets-vue": "^0.4.2",
     "vue": "^3.2.37",
-    "vue-router": "^4.1.2"
+    "vue-router": "^4.1.2",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
@@ -32,6 +34,7 @@
     "@types/node": "^16.11.45",
     "@vitejs/plugin-vue": "^3.0.1",
     "@vitejs/plugin-vue-jsx": "^2.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/test-utils": "^2.0.2",
