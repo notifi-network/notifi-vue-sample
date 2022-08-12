@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { UPDATE_CLIENT, UPDATE_CLIENT_DATA } from "./mutation-types";
+import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED } from "./mutation-types";
 import type {
   Alert,
   EmailTarget,
@@ -10,10 +10,11 @@ import type {
   TargetGroup,
   TelegramTarget,
 } from "@notifi-network/notifi-core";
+import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 
 export type StateProps = {
   dappAddress: string;
-  notifiEnvironment: string;
+  notifiEnvironment: NotifiEnvironment;
   clientState: {
     clientRandomUuid: number | null;
     token: string | null;
@@ -34,8 +35,8 @@ export type StateProps = {
   isSubscribed: boolean;
 };
 
-const state = {
-  dappAddress: "ASK_NOTIFI_FOR_THIS_VALUE",
+const state : StateProps = {
+  dappAddress: "notifi",
   notifiEnvironment: "Development",
   clientState: {
     clientRandomUuid: null,
@@ -82,6 +83,15 @@ const mutations = {
   [UPDATE_CLIENT_DATA](state: StateProps, clientData: StateProps["clientData"]) {
     return (state.clientData = { ...clientData });
   },
+  [UPDATE_EMAIL](state: StateProps, emailAddress: string) {
+    return (state.emailAddress = emailAddress);
+  },
+  [UPDATE_TELEGRAM](state: StateProps, telegramId: string) {
+    return (state.telegramId = telegramId);
+  },
+  [UPDATE_IS_SUBSCRIBED](state: StateProps, isSubscribed: boolean) {
+    return (state.isSubscribed = isSubscribed);
+  },
 };
 
 const actions = {
@@ -90,6 +100,15 @@ const actions = {
   },
   [UPDATE_CLIENT_DATA](context: any, clientData: StateProps["clientData"]) {
     context.commit("UPDATE_CLIENT_DATA", clientData);
+  },
+  [UPDATE_EMAIL](context: any, email: string) {
+    context.commit("UPDATE_EMAIL", email);
+  },
+  [UPDATE_TELEGRAM](context: any, telegram: string) {
+    context.commit("UPDATE_TELEGRAM", telegram);
+  },
+  [UPDATE_IS_SUBSCRIBED](context: any, isSubscribed: boolean) {
+    context.commit("UPDATE_IS_SUBSCRIBED", isSubscribed);
   },
 };
 

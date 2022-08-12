@@ -1,5 +1,8 @@
 <template>
   <div class="subscribeForm">
+   <div class="loginSection">
+     <Button class="p-button-raised p-button-rounded p-button-lg" @click="handleLogin" label="Login" />
+   </div>
     <div class="communicationChannels">
       <div>
         <label for="email">Email:</label>
@@ -12,24 +15,56 @@
     </div>
     <div class="subscriptions">
       <label for="name">Subscribe to Notifi Announcements:</label>
-      <InputSwitch v-model="isSubscribed" />
+      <input type="checkbox" label="subscribeCheckbox" v-model="isSubscribed" />
     </div>
     <div>
-      <Button class="p-button-raised p-button-rounded p-button-lg" label="Subscribe" />
+      <Button class="p-button-raised p-button-rounded p-button-lg" @click="handleSubmit" label="Subscribe" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import InputSwitch from 'primevue/inputswitch';
 import Button from 'primevue/button';
-import {mapState} from 'vuex';
+import { handleSubmit, handleLogin } from '../modules/Subscribe';
+import type { handleSubmitProps } from '../modules/Subscribe';
+import store from '../store/index';
 
 export default {
-    computed: {
-       ...mapState({emailAddress: 'emailAddress', telegramId: 'telegramId', isSubscribed: 'isSubscribed'})
+  computed: {
+   emailAddress: {
+    get () {
+      return store.state.emailAddress;
     },
-    components: {InputSwitch, Button}
+    set (email: string) {
+      store.commit('updateEmailAddress', email);
+    }
+  },
+  telegramId: {
+    get () {
+      return store.state.telegramId;
+    },
+    set (telegramId: string) {
+      store.commit('updateTelegramId', telegramId);
+    }
+  },
+  isSubscribed: {
+    get () {
+      return store.state.isSubscribed;
+    },
+    set (isSubscribed: boolean) {
+      store.commit('updateSubscription', !isSubscribed);
+    }
+  }
+  },  methods: {
+      handleSubmit: function({loading = false, emailInput = store.state.emailAddress, telegramInput = store.state.telegramId} : handleSubmitProps) {
+        handleSubmit({loading, emailInput, telegramInput});
+      },
+      handleLogin: function() {
+        handleLogin();
+      },
+
+    },
+    components: {Button}
 }
 
 </script>

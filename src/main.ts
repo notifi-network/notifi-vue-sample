@@ -6,7 +6,7 @@ import PrimeVue from 'primevue/config';
 import router from "./router";
 
 import "./assets/main.css";
-import store from './store';
+import store from './store/index';
 
 const app = createApp(App).use(store);
 
