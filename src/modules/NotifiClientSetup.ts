@@ -2,11 +2,12 @@
 import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 import { notifiConfigs } from "@notifi-network/notifi-axios-utils";
 import { NotifiAxiosService } from "@notifi-network/notifi-axios-adapter";
-import type { AdapterValues } from "./WalletStore";
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import type { StateProps } from '../store/index';
 import store from "@/store";
 import { NewNotifiClient } from '../modules/NotifiClient';
+import type { PublicKey } from "@solana/web3.js";
+import type { Ref } from "vue";
 
 export default {
 	computed: {
@@ -27,25 +28,26 @@ export default {
 	}
   }
 
-const notifiService = (notifiEnvironment : NotifiEnvironment) => {
+export const notifiServiceSetup = (notifiEnvironment : NotifiEnvironment) => {
 	const { gqlUrl } = notifiConfigs(notifiEnvironment);
 	return new NotifiAxiosService({ gqlUrl });
 }
 
+
 type ClientProps = {
-	adapterValues: AdapterValues, 
+	publicKey: Ref<PublicKey | null>,
 	dappAddress: string, 
 	notifiService: NotifiAxiosService,
 	clientState: StateProps["clientState"];
 	clientData: StateProps["clientData"];
 }
 
-export const notifiClient = ({adapterValues, dappAddress, notifiService, clientState, clientData } : ClientProps) => {
-	if (adapterValues.publicKey === null) {
+export const notifiClientSetup = ({publicKey, dappAddress, notifiService, clientState, clientData } : ClientProps) => {
+	if (publicKey === null) {
 		return null;
 	}
 
-	store.dispatch('UPDATE_CLIENT', {
+	store.dispatch('updateClient', {
 		clientRandomUuid: null,
 		token: null,
 		roles: [],
@@ -53,7 +55,7 @@ export const notifiClient = ({adapterValues, dappAddress, notifiService, clientS
 
 	return new NewNotifiClient(
 		dappAddress,
-		adapterValues.publicKey,
+		publicKey,
 		notifiService,
 		clientState,
 		clientData

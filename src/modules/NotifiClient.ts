@@ -25,26 +25,27 @@ import type {
 import type { MessageSignerWalletAdapterProps } from "@solana/wallet-adapter-base";
 import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from "../store/index";
+import type { Ref } from "vue";
 import store from "@/store";
 
 export class NewNotifiClient implements NotifiClient {
   dappAddress: string;
-  publicKey: PublicKey;
-  walletAddress: string;
+  publicKey: Ref<PublicKey | null>;
+  walletAddress: string | undefined;
   service: NotifiService;
   stateContainer: StateProps["clientState"];
   dataContainer: StateProps["clientData"];
 
   constructor(
     dappAddress: string,
-    publicKey: PublicKey,
+    publicKey: Ref<PublicKey | null>,
     service: any,
     stateContainer: StateProps["clientState"],
     dataContainer: StateProps["clientData"]
   ) {
     this.dappAddress = dappAddress;
     this.publicKey = publicKey;
-    this.walletAddress = publicKey.toBase58();
+    this.walletAddress = publicKey?.value?.toBase58();
     this.service = service;
     this.stateContainer = stateContainer;
     this.dataContainer = dataContainer;
@@ -52,7 +53,7 @@ export class NewNotifiClient implements NotifiClient {
 
   beginLoginViaTransaction = async () => {
     const result = await this.service.beginLogInByTransaction({
-      walletAddress: this.walletAddress,
+      walletAddress: this.walletAddress !== undefined ? this.walletAddress : '',
       walletBlockchain: "SOLANA",
       dappAddress: this.dappAddress,
     });
@@ -67,7 +68,7 @@ export class NewNotifiClient implements NotifiClient {
     const data = encoder.encode(`${nonce}${ruuid}`);
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-    store.dispatch("UPDATE_CLIENT", {
+    store.dispatch('updateClient', {
       ...this.stateContainer,
       clientRandomUuid: ruuid,
     });
@@ -173,7 +174,7 @@ export class NewNotifiClient implements NotifiClient {
 
     const { transactionSignature } = input;
     const result = await this.service.completeLogInByTransaction({
-      walletAddress: this.walletAddress,
+      walletAddress: this.walletAddress !== undefined ? this.walletAddress : '',
       walletBlockchain: "SOLANA",
       dappAddress: this.dappAddress,
       randomUuid: ruuid,
@@ -207,7 +208,7 @@ export class NewNotifiClient implements NotifiClient {
     });
 
     const result = await this.service.logInFromDapp({
-      walletPublicKey: this.walletAddress,
+      walletPublicKey: this.walletAddress !== undefined ? this.walletAddress : '',
       dappAddress: this.dappAddress,
       timestamp,
       signature,
