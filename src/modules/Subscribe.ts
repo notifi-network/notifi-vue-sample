@@ -106,7 +106,7 @@ const ensureAlertExists = async () => {
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
-  if (!store.state.clientState.token) {
+  if (store.state.clientState.token) {
     await notifiClient?.logOut()
   } else await notifiClient?.logIn(adapter);
 }

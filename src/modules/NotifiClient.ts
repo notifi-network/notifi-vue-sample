@@ -27,6 +27,7 @@ import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from "../store/index";
 import type { Ref } from "vue";
 import store from "@/store";
+import { useWallet } from 'solana-wallets-vue';
 
 export class NewNotifiClient implements NotifiClient {
   dappAddress: string;

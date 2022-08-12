@@ -42,7 +42,7 @@ type ClientProps = {
 	clientData: StateProps["clientData"];
 }
 
-export const notifiClientSetup = ({publicKey, dappAddress, notifiService, clientState, clientData } : ClientProps) => {
+export const notifiClientSetup = ({ publicKey, dappAddress, notifiService, clientState, clientData } : ClientProps) => {
 	if (publicKey === null) {
 		return null;
 	}
