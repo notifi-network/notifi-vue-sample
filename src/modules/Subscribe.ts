@@ -138,7 +138,7 @@ export const handleLogin = async () => {
   if (notifiClient) {
     if (clientState.token) {
     await notifiClient.logOut();
-    } 
+    } else await notifiClient.logIn(signMessage);
   }
 }
 
