@@ -1,8 +1,5 @@
 <template>
   <div class="subscribeForm">
-   <div class="loginSection">
-     <Button class="p-button-raised p-button-rounded p-button-lg" @click="handleLogin" label="Login" />
-   </div>
     <div class="communicationChannels">
       <div>
         <label for="email">Email:</label>
@@ -25,7 +22,7 @@
 
 <script lang="ts">
 import Button from 'primevue/button';
-import { handleSubmit, handleLogin } from '../modules/Subscribe';
+import { handleSubmit } from '../modules/Subscribe';
 import type { handleSubmitProps } from '../modules/Subscribe';
 import store from '../store/index';
 
@@ -59,10 +56,6 @@ export default {
       handleSubmit: function({loading = false, emailInput = store.state.emailAddress, telegramInput = store.state.telegramId} : handleSubmitProps) {
         handleSubmit({loading, emailInput, telegramInput});
       },
-      handleLogin: function() {
-        handleLogin();
-      },
-
     },
     components: {Button}
 }

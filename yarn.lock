@@ -1567,7 +1567,7 @@
 
 "@solana/wallet-adapter-vue@^0.4.5":
   version "0.4.5"
-  resolved "https://registry.npmjs.org/@solana/wallet-adapter-vue/-/wallet-adapter-vue-0.4.5.tgz"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-vue/-/wallet-adapter-vue-0.4.5.tgz#64ffaf8b32130fe59f991c55c5b64db60cf20e0e"
   integrity sha512-NjVWS2cO27F/Rice6NmZuonIg9bC1V/Z3qgZLt3NQ8Gsg5JqU/7xyK1DqCbzoPeVzJ0XNEViXCt6gEndGDnm3Q==
   dependencies:
     "@solana/wallet-adapter-base" "^0.8.1"
