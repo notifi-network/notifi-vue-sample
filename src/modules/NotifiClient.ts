@@ -221,9 +221,9 @@ export class NewNotifiClient implements NotifiClient {
 
   logOut = async () => {
     this.service.setJwt(null);
-    store.dispatch("CLIENT_UPDATE_DATA", null);
+    store.commit("updateClientData", null);
 
-    store.dispatch("CLIENT_UPDATE", {
+    store.commit("updateClient", {
       ...this.stateContainer,
       token: null,
       roles: [],

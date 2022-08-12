@@ -47,7 +47,7 @@ export const notifiClientSetup = ({publicKey, dappAddress, notifiService, client
 		return null;
 	}
 
-	store.dispatch('updateClient', {
+	store.commit('updateClient', {
 		clientRandomUuid: null,
 		token: null,
 		roles: [],

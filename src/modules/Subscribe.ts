@@ -29,7 +29,7 @@ const clientState = store.state.clientState;
 const clientData = store.state.clientData;
 const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
-const { publicKey, signMessage } = useWallet();
+const { publicKey } = useWallet();
 
 const notifiClient = notifiClientSetup({
   publicKey,
@@ -104,6 +104,12 @@ const ensureAlertExists = async () => {
     }
   }
 };
+
+export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
+  if (!store.state.clientState.token) {
+    await notifiClient?.logOut()
+  } else await notifiClient?.logIn(adapter);
+}
 
 export const handleSubmit = ({
   loading,

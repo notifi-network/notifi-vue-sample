@@ -1,5 +1,12 @@
 <template>
   <div class="subscribeForm">
+    <div class="loginButton">
+      <Button
+        class="p-button-raised p-button-rounded p-button-lg"
+        @click="handleLogin"
+        label="Login"
+      />
+    </div>
     <div class="communicationChannels">
       <div>
         <label for="email">Email:</label>
@@ -15,51 +22,62 @@
       <input type="checkbox" label="subscribeCheckbox" v-model="isSubscribed" />
     </div>
     <div>
-      <Button class="p-button-raised p-button-rounded p-button-lg" @click="handleSubmit" label="Subscribe" />
+      <Button
+        class="p-button-raised p-button-rounded p-button-lg"
+        @click="handleSubmit"
+        label="Subscribe"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Button from 'primevue/button';
-import { handleSubmit } from '../modules/Subscribe';
-import type { handleSubmitProps } from '../modules/Subscribe';
-import store from '../store/index';
+import Button from "primevue/button";
+import { handleSubmit, handleLogin, adapter } from "../modules/Subscribe";
+import type { handleSubmitProps } from "../modules/Subscribe";
+import store from "../store/index";
 
 export default {
   computed: {
-   emailAddress: {
-    get () {
-      return store.state.emailAddress;
-    },
-    set (email: string) {
-      store.commit('updateEmailAddress', email);
-    }
-  },
-  telegramId: {
-    get () {
-      return store.state.telegramId;
-    },
-    set (telegramId: string) {
-      store.commit('updateTelegramId', telegramId);
-    }
-  },
-  isSubscribed: {
-    get () {
-      return store.state.isSubscribed;
-    },
-    set (isSubscribed: boolean) {
-      store.commit('updateSubscription', !isSubscribed);
-    }
-  }
-  },  methods: {
-      handleSubmit: function({loading = false, emailInput = store.state.emailAddress, telegramInput = store.state.telegramId} : handleSubmitProps) {
-        handleSubmit({loading, emailInput, telegramInput});
+    emailAddress: {
+      get() {
+        return store.state.emailAddress;
+      },
+      set(email: string) {
+        store.commit("updateEmailAddress", email);
       },
     },
-    components: {Button}
-}
-
+    telegramId: {
+      get() {
+        return store.state.telegramId;
+      },
+      set(telegramId: string) {
+        store.commit("updateTelegramId", telegramId);
+      },
+    },
+    isSubscribed: {
+      get() {
+        return store.state.isSubscribed;
+      },
+      set(isSubscribed: boolean) {
+        store.commit("updateSubscription", !isSubscribed);
+      },
+    },
+  },
+  methods: {
+    handleSubmit: function ({
+      loading = false,
+      emailInput = store.state.emailAddress,
+      telegramInput = store.state.telegramId,
+    }: handleSubmitProps) {
+      handleSubmit({ loading, emailInput, telegramInput });
+    },
+    handleLogin: function (newAdapter = adapter) {
+      handleLogin(newAdapter);
+    },
+  },
+  components: { Button },
+};
 </script>
 
 <style scoped>
