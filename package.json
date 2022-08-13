@@ -17,6 +17,7 @@
     "@solana-mobile/wallet-adapter-mobile": "^0.0.1-alpha.8",
     "@solana/wallet-adapter-base": "^0.9.9",
     "@solana/wallet-adapter-vue": "^0.4.5",
+    "@solana/wallet-adapter-vue-ui": "^0.2.4",
     "@solana/wallet-adapter-wallets": "^0.16.10",
     "@solana/web3.js": "^1.50.1",
     "axios": "^0.26.1",

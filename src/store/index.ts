@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED } from "./mutation-types";
+import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED, UPDATE_WALLET_STORE } from "./mutation-types";
 import type {
   Alert,
   EmailTarget,
@@ -11,6 +11,7 @@ import type {
   TelegramTarget,
 } from "@notifi-network/notifi-core";
 import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
+import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 
 export type StateProps = {
   dappAddress: string;
@@ -33,6 +34,7 @@ export type StateProps = {
   emailAddress: string | null;
   telegramId: string | null;
   isSubscribed: boolean;
+  walletStore: MessageSignerWalletAdapter | undefined;
 };
 
 const state : StateProps = {
@@ -56,6 +58,7 @@ const state : StateProps = {
   emailAddress: null,
   telegramId: null,
   isSubscribed: false,
+  walletStore: undefined,
 };
 
 const getters = {
@@ -92,6 +95,9 @@ const mutations = {
   [UPDATE_IS_SUBSCRIBED](state: StateProps, isSubscribed: boolean) {
     return (state.isSubscribed = isSubscribed);
   },
+  [UPDATE_WALLET_STORE](state: StateProps, walletStore: MessageSignerWalletAdapter) {
+    return (state.walletStore = walletStore);
+  },
 };
 
 const actions = {
@@ -109,6 +115,9 @@ const actions = {
   },
   [UPDATE_IS_SUBSCRIBED](context: any, isSubscribed: boolean) {
     context.commit("UPDATE_IS_SUBSCRIBED", isSubscribed);
+  },
+  [UPDATE_WALLET_STORE](context: any,  walletStore: MessageSignerWalletAdapter) {
+    context.commit("UPDATE_WALLET_STORE", walletStore);
   },
 };
 

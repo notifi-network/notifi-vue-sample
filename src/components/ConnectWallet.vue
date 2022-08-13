@@ -12,19 +12,21 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base"
 
 import {
   PhantomWalletAdapter,
-  SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
+import store from '../store/index';
 
 import { WalletMultiButton } from 'solana-wallets-vue'
 
 const walletOptions = {
   wallets: [
     new PhantomWalletAdapter(),
-    new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
   ],
-  autoConnect: false,
+  autoConnect: true,
 }
+
 initWallet(walletOptions);
+
+store.commit('updateWalletStore', walletOptions.wallets[0])
 
 export default {
   components: {WalletMultiButton}

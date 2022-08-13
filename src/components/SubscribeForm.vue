@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import Button from "primevue/button";
-import { handleSubmit, handleLogin, adapter } from "../modules/Subscribe";
+import { handleSubmit, handleLogin } from "../modules/Subscribe";
 import type { handleSubmitProps } from "../modules/Subscribe";
 import store from "../store/index";
 
@@ -72,8 +72,8 @@ export default {
     }: handleSubmitProps) {
       handleSubmit({ loading, emailInput, telegramInput });
     },
-    handleLogin: function (newAdapter = adapter) {
-      handleLogin(newAdapter);
+    handleLogin: function () {
+      if (store.state.walletStore) handleLogin(store.state.walletStore);
     },
   },
   components: { Button },

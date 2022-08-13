@@ -7,7 +7,11 @@ import {
 import store from "../store/index";
 import { useWallet } from "solana-wallets-vue";
 
-export let adapter: MessageSignerWalletAdapter;
+export let adapter: MessageSignerWalletAdapter | undefined;
+
+adapter = store.state.walletStore != undefined ? store.state.walletStore : undefined;
+
+console.log('adapter', adapter);
 
 export type handleSubmitProps = {
   loading: boolean;
