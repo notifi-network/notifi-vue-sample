@@ -1565,7 +1565,16 @@
     process "^0.11.10"
     stream-browserify "^3.0.0"
 
-"@solana/wallet-adapter-vue@^0.4.5":
+"@solana/wallet-adapter-vue-ui@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-vue-ui/-/wallet-adapter-vue-ui-0.2.4.tgz#4fdc263f7de7cb9e7a9fb3ed322b3536f3e6425c"
+  integrity sha512-TvsY9vglXSDWJsNXQbqO+6fqvncXHWtUjXWY58Je2bqeBK1gLrly6x9lxYsVxs+CprYX06UaL62ug5mfI5tsQA==
+  dependencies:
+    "@solana/wallet-adapter-base" "^0.8.1"
+    "@solana/wallet-adapter-vue" "^0.4.2"
+    vue "^3.0.0"
+
+"@solana/wallet-adapter-vue@^0.4.2", "@solana/wallet-adapter-vue@^0.4.5":
   version "0.4.5"
   resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-vue/-/wallet-adapter-vue-0.4.5.tgz#64ffaf8b32130fe59f991c55c5b64db60cf20e0e"
   integrity sha512-NjVWS2cO27F/Rice6NmZuonIg9bC1V/Z3qgZLt3NQ8Gsg5JqU/7xyK1DqCbzoPeVzJ0XNEViXCt6gEndGDnm3Q==

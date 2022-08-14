@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="metaInfo">
-      <div id="dappAddress"><label>Dapp ID:</label> {{ dappAddress }}</div>
+      <div id="dappAddress"><label>Dapp ID:</label><InputText v-model="dappAddress"></InputText></div>
       <div id="devEnvironment">
         <label>Environment:</label> {{ notifiEnvironment }}
       </div>
@@ -13,12 +13,13 @@
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
 import { mapState } from 'vuex';
+import InputText from "primevue/inputtext";
 
 export default {
   computed: {
-    ...mapState({ dappAddress: 'dappAddress', notifiEnvironment: 'notifiEnvironment'})
+    ...mapState(['dappAddress', 'notifiEnvironment'])
   },
-  components: { ConnectWallet },
+  components: { ConnectWallet, InputText },
 };
 </script>
 
@@ -39,8 +40,13 @@ export default {
   margin-bottom: 50px;
 }
 
-#dappId, #devEnvironment {
+#dappAddress, #devEnvironment {
   display: inline-block;
   white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 </style>

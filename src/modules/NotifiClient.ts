@@ -26,6 +26,7 @@ import type { MessageSignerWalletAdapterProps } from "@solana/wallet-adapter-bas
 import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from "../store/index";
 import type { Ref } from "vue";
+import { ref } from "vue";
 import store from "@/store";
 
 export class NewNotifiClient implements NotifiClient {
@@ -45,7 +46,7 @@ export class NewNotifiClient implements NotifiClient {
   ) {
     this.dappAddress = dappAddress;
     this.publicKey = publicKey;
-    this.walletAddress = publicKey?.value?.toBase58();
+    this.walletAddress = publicKey.value?.toBase58();
     this.service = service;
     this.stateContainer = stateContainer;
     this.dataContainer = dataContainer;
@@ -221,9 +222,9 @@ export class NewNotifiClient implements NotifiClient {
 
   logOut = async () => {
     this.service.setJwt(null);
-    store.dispatch("CLIENT_UPDATE_DATA", null);
+    store.commit("updateClientData", null);
 
-    store.dispatch("CLIENT_UPDATE", {
+    store.commit("updateClient", {
       ...this.stateContainer,
       token: null,
       roles: [],
@@ -647,7 +648,7 @@ export class NewNotifiClient implements NotifiClient {
   _handleLogInResult = async (user: User) => {
     const token = user.authorization?.token ?? null;
 
-    store.dispatch("CLIENT_UPDATE", {
+    store.commit("updateClient", {
       ...this.stateContainer,
       token: token,
       roles: user?.roles ?? [],
@@ -656,7 +657,7 @@ export class NewNotifiClient implements NotifiClient {
     this.service.setJwt(token);
 
     const newData = await this._fetchInternalData();
-    store.dispatch("CLIENT_UPDATE_DATA", {
+    store.commit("updateClientData", {
 		newData
 	  });
   };
