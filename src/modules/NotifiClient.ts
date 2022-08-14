@@ -27,7 +27,6 @@ import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from "../store/index";
 import type { Ref } from "vue";
 import store from "@/store";
-import { useWallet } from 'solana-wallets-vue';
 
 export class NewNotifiClient implements NotifiClient {
   dappAddress: string;
@@ -46,7 +45,7 @@ export class NewNotifiClient implements NotifiClient {
   ) {
     this.dappAddress = dappAddress;
     this.publicKey = publicKey;
-    this.walletAddress = publicKey?.value?.toBase58();
+    this.walletAddress = '94aBKNCFL71ZdrJAp4dbuwHRNr8Zq3UMHP4nFV1hAsci';
     this.service = service;
     this.stateContainer = stateContainer;
     this.dataContainer = dataContainer;
@@ -216,6 +215,8 @@ export class NewNotifiClient implements NotifiClient {
     });
 
     await this._handleLogInResult(result);
+
+
 
     return result;
   };
@@ -648,7 +649,7 @@ export class NewNotifiClient implements NotifiClient {
   _handleLogInResult = async (user: User) => {
     const token = user.authorization?.token ?? null;
 
-    store.dispatch("CLIENT_UPDATE", {
+    store.commit("updateClient", {
       ...this.stateContainer,
       token: token,
       roles: user?.roles ?? [],
@@ -657,7 +658,7 @@ export class NewNotifiClient implements NotifiClient {
     this.service.setJwt(token);
 
     const newData = await this._fetchInternalData();
-    store.dispatch("CLIENT_UPDATE_DATA", {
+    store.commit("updateClientData", {
 		newData
 	  });
   };

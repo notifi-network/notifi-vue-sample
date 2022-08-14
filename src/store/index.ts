@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED, UPDATE_WALLET_STORE } from "./mutation-types";
+import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED, UPDATE_WALLET_STORE, UPDATE_PUBLIC_KEY } from "./mutation-types";
 import type {
   Alert,
   EmailTarget,
@@ -35,6 +35,7 @@ export type StateProps = {
   telegramId: string | null;
   isSubscribed: boolean;
   walletStore: MessageSignerWalletAdapter | undefined;
+  publicKey: string;
 };
 
 const state : StateProps = {
@@ -59,6 +60,7 @@ const state : StateProps = {
   telegramId: null,
   isSubscribed: false,
   walletStore: undefined,
+  publicKey: '',
 };
 
 const getters = {
@@ -98,6 +100,9 @@ const mutations = {
   [UPDATE_WALLET_STORE](state: StateProps, walletStore: MessageSignerWalletAdapter) {
     return (state.walletStore = walletStore);
   },
+  [UPDATE_PUBLIC_KEY](state: StateProps, publicKey: string) {
+    return (state.publicKey = publicKey);
+  }
 };
 
 const actions = {
@@ -118,6 +123,9 @@ const actions = {
   },
   [UPDATE_WALLET_STORE](context: any,  walletStore: MessageSignerWalletAdapter) {
     context.commit("UPDATE_WALLET_STORE", walletStore);
+  },
+  [UPDATE_PUBLIC_KEY](context: any,  publicKey: string) {
+    context.commit("UPDATE_PUBLIC_KEY", publicKey);
   },
 };
 

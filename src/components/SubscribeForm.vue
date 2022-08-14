@@ -2,7 +2,7 @@
   <div class="subscribeForm">
     <div class="loginButton">
       <Button
-        class="p-button-raised p-button-rounded p-button-lg"
+        class="p-button-raised p-button-rounded-button-sm"
         @click="handleLogin"
         label="Login"
       />
@@ -10,20 +10,20 @@
     <div class="communicationChannels">
       <div>
         <label for="email">Email:</label>
-        <input type="text" label="Email" v-model="emailAddress" />
+        <InputText type="text" label="Email" placeholder="Enter in your full email" v-model="emailAddress" />
       </div>
       <div>
         <label for="name">Telegram Id:</label>
-        <input type="text" label="TelegramId" v-model="telegramId" />
+        <InputText type="text" label="TelegramId" placeholder="Enter in your telegram id without @" v-model="telegramId" />
       </div>
     </div>
     <div class="subscriptions">
       <label for="name">Subscribe to Notifi Announcements:</label>
-      <input type="checkbox" label="subscribeCheckbox" v-model="isSubscribed" />
+      <InputSwitch type="checkbox" label="subscribeCheckbox" v-model="checkSubscribed" />
     </div>
     <div>
       <Button
-        class="p-button-raised p-button-rounded p-button-lg"
+        class="p-button-raised p-button-md"
         @click="handleSubmit"
         label="Subscribe"
       />
@@ -33,6 +33,8 @@
 
 <script lang="ts">
 import Button from "primevue/button";
+import InputSwitch from 'primevue/inputswitch';
+import InputText from 'primevue/inputtext';
 import { handleSubmit, handleLogin } from "../modules/Subscribe";
 import type { handleSubmitProps } from "../modules/Subscribe";
 import store from "../store/index";
@@ -55,28 +57,29 @@ export default {
         store.commit("updateTelegramId", telegramId);
       },
     },
-    isSubscribed: {
+    checkSubscribed: {
       get() {
         return store.state.isSubscribed;
       },
       set(isSubscribed: boolean) {
-        store.commit("updateSubscription", !isSubscribed);
+        store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
   },
   methods: {
     handleSubmit: function ({
       loading = false,
-      emailInput = store.state.emailAddress,
-      telegramInput = store.state.telegramId,
+      checkSubscribed,
+      emailInput,
+      telegramInput,
     }: handleSubmitProps) {
-      handleSubmit({ loading, emailInput, telegramInput });
+      handleSubmit({ loading, checkSubscribed, emailInput, telegramInput });
     },
     handleLogin: function () {
       if (store.state.walletStore) handleLogin(store.state.walletStore);
     },
   },
-  components: { Button },
+  components: { Button, InputSwitch, InputText },
 };
 </script>
 
@@ -94,5 +97,12 @@ input {
   flex-direction: column;
   gap: 40px;
   color: black;
+}
+
+.subscriptions {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
 }
 </style>

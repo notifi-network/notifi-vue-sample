@@ -35,7 +35,7 @@ export const notifiServiceSetup = (notifiEnvironment : NotifiEnvironment) => {
 
 
 type ClientProps = {
-	publicKey: Ref<PublicKey | null>,
+	publicKey: Ref<PublicKey | null> | undefined,
 	dappAddress: string, 
 	notifiService: NotifiAxiosService,
 	clientState: StateProps["clientState"];
@@ -43,7 +43,7 @@ type ClientProps = {
 }
 
 export const notifiClientSetup = ({ publicKey, dappAddress, notifiService, clientState, clientData } : ClientProps) => {
-	if (publicKey === null) {
+	if (publicKey === null || publicKey === undefined) {
 		return null;
 	}
 

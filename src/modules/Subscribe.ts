@@ -5,23 +5,21 @@ import {
   notifiServiceSetup,
 } from "../modules/NotifiClientSetup";
 import store from "../store/index";
-import { useWallet } from "solana-wallets-vue";
+import { useWallet } from 'solana-wallets-vue';
 
 export let adapter: MessageSignerWalletAdapter | undefined;
 
 adapter = store.state.walletStore != undefined ? store.state.walletStore : undefined;
 
-console.log('adapter', adapter);
-
 export type handleSubmitProps = {
   loading: boolean;
+  checkSubscribed: boolean,
   emailInput: string | null;
   telegramInput: string | null;
 };
 
 let emailInput = "";
 let telegramInput = "";
-let announcementsSubscribed = false;
 let telegramConfirmationUrl = "";
 let loading = false;
 
@@ -33,9 +31,9 @@ const clientState = store.state.clientState;
 const clientData = store.state.clientData;
 const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
-const { publicKey } = useWallet();
+const {publicKey} = useWallet();
 
-const notifiClient = notifiClientSetup({
+export const notifiClient = notifiClientSetup({
   publicKey,
   dappAddress,
   notifiService,
@@ -43,7 +41,7 @@ const notifiClient = notifiClientSetup({
   clientData,
 });
 
-const ensureAlertDeleted = async () => {
+export const ensureAlertDeleted = async () => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const alertId =
@@ -56,7 +54,7 @@ const ensureAlertDeleted = async () => {
   }
 };
 
-const ensureAlertExists = async () => {
+export const ensureAlertExists = async () => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const announcementAlert = data.alerts.find(
@@ -117,13 +115,14 @@ export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
 
 export const handleSubmit = ({
   loading,
+  checkSubscribed,
   emailInput,
   telegramInput,
 }: handleSubmitProps) => {
   try {
     loading = true;
     if (
-      announcementsSubscribed &&
+      checkSubscribed &&
       (emailInput !== "" || telegramInput !== "")
     ) {
       ensureAlertExists()
@@ -143,19 +142,19 @@ export const handleSubmit = ({
   }
 };
 
-export const unsubscribe = (clientData: StateProps["clientData"]) => {
+export const unsubscribe = (clientData: StateProps["clientData"], checkSubscribed: boolean) => {
   if (clientData === null || loading) {
     return;
   }
 
   const alert = clientData.alerts?.find((a) => a.name === ALERT_NAME);
   if (alert === undefined) {
-    announcementsSubscribed = false;
+    checkSubscribed = false;
     emailInput = "";
     telegramInput = "";
     telegramConfirmationUrl = "";
   } else {
-    announcementsSubscribed = true;
+    checkSubscribed = true;
     emailInput = alert.targetGroup.emailTargets[0]?.emailAddress ?? "";
 
     const telegramTarget = alert.targetGroup.telegramTargets[0];
