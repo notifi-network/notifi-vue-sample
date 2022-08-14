@@ -132,6 +132,13 @@ input {
   text-align: center;
 }
 
+.communicationChannels {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .subscribeForm {
   display: flex;
   align-items: center;
