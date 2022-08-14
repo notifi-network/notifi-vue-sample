@@ -3,13 +3,13 @@ import type { StateProps } from "../store/index";
 import {
   notifiClientSetup,
   notifiServiceSetup,
-} from "../modules/NotifiClientSetup";
+} from "./NotifiClientSetup";
 import store from "../store/index";
 import { useWallet } from 'solana-wallets-vue';
 
 export let adapter: MessageSignerWalletAdapter | undefined;
 
-adapter = store.state.walletStore != undefined ? store.state.walletStore : undefined;
+adapter = store.state.walletStore;
 
 export type handleSubmitProps = {
   loading: boolean;
@@ -31,9 +31,9 @@ const clientState = store.state.clientState;
 const clientData = store.state.clientData;
 const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
-const {publicKey} = useWallet();
+const { publicKey } = useWallet();
 
-export const notifiClient = notifiClientSetup({
+export let notifiClient = notifiClientSetup({
   publicKey,
   dappAddress,
   notifiService,

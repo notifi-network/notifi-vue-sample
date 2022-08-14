@@ -2,37 +2,16 @@
 import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 import { notifiConfigs } from "@notifi-network/notifi-axios-utils";
 import { NotifiAxiosService } from "@notifi-network/notifi-axios-adapter";
-import { mapGetters, mapMutations, mapActions } from 'vuex';
 import type { StateProps } from '../store/index';
 import store from "@/store";
 import { NewNotifiClient } from '../modules/NotifiClient';
 import type { PublicKey } from "@solana/web3.js";
 import type { Ref } from "vue";
 
-export default {
-	computed: {
-	  ...mapGetters([
-		'dappAddress',
-		'notifiEnvironment',
-		'clientState',
-		'clientData'
-	  ])
-	},
-	methods: {
-	  ...mapMutations([
-		'updateClient'
-	  ]),
-	  ...mapActions({
-		updateClient: 'updateClient'
-	  })
-	}
-  }
-
 export const notifiServiceSetup = (notifiEnvironment : NotifiEnvironment) => {
 	const { gqlUrl } = notifiConfigs(notifiEnvironment);
 	return new NotifiAxiosService({ gqlUrl });
 }
-
 
 type ClientProps = {
 	publicKey: Ref<PublicKey | null> | undefined,

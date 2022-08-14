@@ -26,6 +26,7 @@ import type { MessageSignerWalletAdapterProps } from "@solana/wallet-adapter-bas
 import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from "../store/index";
 import type { Ref } from "vue";
+import { ref } from "vue";
 import store from "@/store";
 
 export class NewNotifiClient implements NotifiClient {
@@ -45,7 +46,7 @@ export class NewNotifiClient implements NotifiClient {
   ) {
     this.dappAddress = dappAddress;
     this.publicKey = publicKey;
-    this.walletAddress = '94aBKNCFL71ZdrJAp4dbuwHRNr8Zq3UMHP4nFV1hAsci';
+    this.walletAddress = publicKey.value?.toBase58();
     this.service = service;
     this.stateContainer = stateContainer;
     this.dataContainer = dataContainer;
@@ -215,8 +216,6 @@ export class NewNotifiClient implements NotifiClient {
     });
 
     await this._handleLogInResult(result);
-
-
 
     return result;
   };
