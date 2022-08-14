@@ -13,7 +13,7 @@ export const notifiServiceSetup = (notifiEnvironment : NotifiEnvironment) => {
 	return new NotifiAxiosService({ gqlUrl });
 }
 
-type ClientProps = {
+export type ClientProps = {
 	publicKey: Ref<PublicKey | null> | undefined,
 	dappAddress: string, 
 	notifiService: NotifiAxiosService,

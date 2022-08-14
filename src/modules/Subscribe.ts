@@ -6,6 +6,7 @@ import {
 } from "./NotifiClientSetup";
 import store from "../store/index";
 import { useWallet } from 'solana-wallets-vue';
+import type { NewNotifiClient } from '../modules/NotifiClient';
 
 export let adapter: MessageSignerWalletAdapter | undefined;
 
@@ -33,15 +34,7 @@ const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
 const { publicKey } = useWallet();
 
-export let notifiClient = notifiClientSetup({
-  publicKey,
-  dappAddress,
-  notifiService,
-  clientState,
-  clientData,
-});
-
-export const ensureAlertDeleted = async () => {
+export const ensureAlertDeleted = async (notifiClient: NewNotifiClient) => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const alertId =
@@ -54,7 +47,7 @@ export const ensureAlertDeleted = async () => {
   }
 };
 
-export const ensureAlertExists = async () => {
+export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const announcementAlert = data.alerts.find(
@@ -108,6 +101,13 @@ export const ensureAlertExists = async () => {
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
+  const notifiClient = notifiClientSetup({
+    publicKey,
+    dappAddress,
+    notifiService,
+    clientState,
+    clientData,
+  });
   if (store.state.clientState.token) {
     await notifiClient?.logOut()
   } else await notifiClient?.logIn(adapter);
@@ -121,22 +121,31 @@ export const handleSubmit = ({
 }: handleSubmitProps) => {
   try {
     loading = true;
+    const notifiClient = notifiClientSetup({
+      publicKey,
+      dappAddress,
+      notifiService,
+      clientState,
+      clientData,
+    });
+    if (notifiClient) {
     if (
       checkSubscribed &&
       (emailInput !== "" || telegramInput !== "")
     ) {
-      ensureAlertExists()
+      ensureAlertExists(notifiClient)
         .then((a) => {
           console.log("Alert created", a);
         })
         .catch((e) => alert(e));
     } else {
-      ensureAlertDeleted()
+      ensureAlertDeleted(notifiClient)
         .then(() => {
           console.log("Alert deleted");
         })
         .catch((e) => alert(e));
     }
+  }
   } finally {
     loading = false;
   }

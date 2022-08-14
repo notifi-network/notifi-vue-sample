@@ -58,6 +58,7 @@ import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputtext";
 import Message from "primevue/message";
 import { handleSubmit, handleLogin } from "../modules/Subscribe";
+import { mapState } from 'vuex';
 import type { handleSubmitProps } from "../modules/Subscribe";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from "solana-wallets-vue";
@@ -97,6 +98,7 @@ export default {
         store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
+    ...mapState(['walletStore']),
   },
   watch: {
     isConnected(connected: boolean) {
