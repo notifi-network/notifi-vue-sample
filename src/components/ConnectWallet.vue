@@ -19,19 +19,8 @@ const walletOptions = {
   autoConnect: true,
 };
 
-async function setFunctionState() {
-  await initWallet(walletOptions);
-  await store.commit("updateWalletStore", walletOptions.wallets[0]);
-
-  const { publicKey } = await useWallet();
-
-  await store.commit('updatePublicKey', publicKey?.value?.toBase58());
-
-  return;
-}
-
-
-setFunctionState();
+initWallet(walletOptions);
+store.commit("updateWalletStore", walletOptions.wallets[0]);
 
 export default {
   components: { WalletMultiButton },
