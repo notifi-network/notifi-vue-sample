@@ -1,52 +1,23 @@
-# notifi-sdk-vue
+# Notifi SDK Vue Sample
 
-This template should help get you started developing with Vue 3 in Vite.
+#### 🏃‍♀️ This sample repository demonstrates how to get started with the Notifi SDK using Vue.
 
-## Recommended IDE Setup
+### 🧑‍💻 What is the Notifi SDK
+Notifi provides notification infrastructure for web3 services and dApps to communicate with their end users on Solana and Ethereum. 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+The Notifi SDK gives developers access to simple APIs for easy integration, customizable experiences, and advanced features for dApps and Web3 applications. The APIs allow developers to easily deploy messaging features without having to build their own communication infrastructure.
 
-## Type Support for `.vue` Imports in TS
+Currently, developers can utilize the SDK to allow their dapp users to sign up for blockchain event alerts that are sent via Telegram, email, or SMS. 
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### 🛠 How to Get Started
+A Dapp Id is required to access the SDK. To obtain a Dapp Id:
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+1. 🤝 Join our Discord and verify your Discord profile.
+2. 🔑 Under Developments section -> SDK -> Post that you are requesting to receive access to the SDK.
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+Once you have received your Dapp Id, you can test the SDK by running the following commands:
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+yarn
+yarn run dev
 ```
