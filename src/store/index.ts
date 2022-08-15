@@ -7,6 +7,7 @@ import {
   UPDATE_IS_SUBSCRIBED,
   UPDATE_WALLET_STORE,
   UPDATE_DAPP_ADDRESS,
+  UPDATE_NOTIFI_ENVIRONMENT
 } from "./mutation-types";
 import type {
   Alert,
@@ -119,6 +120,12 @@ const mutations = {
   ) {
     return (state.dappAddress = dappAddress);
   },
+  [UPDATE_NOTIFI_ENVIRONMENT](
+    state: StateProps,
+    notifiEnvironment: NotifiEnvironment
+  ) {
+    return (state.notifiEnvironment = notifiEnvironment);
+  },
 };
 
 const actions = {
@@ -163,6 +170,12 @@ const actions = {
     dappAddress: string
   ) {
     context.commit("updateDappAddress", dappAddress);
+  },
+  [UPDATE_NOTIFI_ENVIRONMENT](
+    context: ActionContext<StateProps, StateProps>,
+    notifiEnvironment: NotifiEnvironment
+  ) {
+    context.commit("updateNotifiEnvironment", notifiEnvironment);
   },
 };
 
