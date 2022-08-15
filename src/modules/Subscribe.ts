@@ -102,16 +102,18 @@ export const ensureAlertExists = async ({
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
-  notifiClient = await notifiClientSetup({
-    publicKey,
-    dappAddress,
-    notifiService,
-    clientState,
-    clientData,
-  });
   if (store.state.clientState.token) {
     await notifiClient?.logOut();
-  } else await notifiClient?.logIn(adapter);
+  } else {
+    notifiClient = await notifiClientSetup({
+      publicKey,
+      dappAddress,
+      notifiService,
+      clientState,
+      clientData,
+    });
+    await notifiClient?.logIn(adapter);
+  }
 };
 
 export const handleSubmit = async ({
