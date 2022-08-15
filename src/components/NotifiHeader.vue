@@ -20,16 +20,6 @@ import InputText from "primevue/inputtext";
 import store from "../store/index";
 
 export default {
-  data() {
-    return {
-      environments: [
-        { name: "Local" },
-        { name: "Production" },
-        { name: "Development" },
-        { name: "Staging" },
-      ],
-    };
-  },
   components: { ConnectWallet, InputText },
   computed: {
     dappAddress: {
