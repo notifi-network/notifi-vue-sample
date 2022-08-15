@@ -11,13 +11,13 @@ export const adapter: MessageSignerWalletAdapter | undefined =
 export type handleSubmitProps = {
   loading: boolean;
   checkSubscribed: boolean;
-  emailInput: string | null;
-  telegramInput: string | null;
+  emailAddress: string | null;
+  telegramId: string | null;
 };
 
 type targetSubmitProps = {
-  emailInput: string | null;
-  telegramInput: string | null;
+  emailAddress: string | null;
+  telegramId: string | null;
 };
 
 const TOPIC_NAME = "notifish__creatorUpdates"; // Talk to us for the right value
@@ -46,8 +46,8 @@ export const ensureAlertDeleted = async () => {
 };
 
 export const ensureAlertExists = async ({
-  emailInput,
-  telegramInput,
+  emailAddress,
+  telegramId,
 }: targetSubmitProps) => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
@@ -58,9 +58,9 @@ export const ensureAlertExists = async ({
       console.log("Updating alert", announcementAlert.id);
       return notifiClient.updateAlert({
         alertId: announcementAlert.id,
-        emailAddress: emailInput === "" ? null : emailInput,
+        emailAddress: emailAddress === "" ? null : emailAddress,
         phoneNumber: null, // TODO
-        telegramId: telegramInput === "" ? null : telegramInput,
+        telegramId: telegramId === "" ? null : telegramId,
       });
     } else {
       // Make sure the Broadcast source exists
@@ -93,9 +93,9 @@ export const ensureAlertExists = async ({
         name: ALERT_NAME,
         sourceId: source.id,
         filterId,
-        emailAddress: emailInput === "" ? null : emailInput,
+        emailAddress: emailAddress === "" ? null : emailAddress,
         phoneNumber: null, // TODO
-        telegramId: telegramInput === "" ? null : telegramInput,
+        telegramId: telegramId === "" ? null : telegramId,
       });
     }
   }
@@ -119,14 +119,14 @@ export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
 export const handleSubmit = async ({
   loading,
   checkSubscribed,
-  emailInput,
-  telegramInput,
+  emailAddress,
+  telegramId,
 }: handleSubmitProps) => {
   try {
     loading = true;
     if (notifiClient) {
-      if (checkSubscribed && (emailInput !== "" || telegramInput !== "")) {
-        ensureAlertExists({ emailInput, telegramInput })
+      if (checkSubscribed && (emailAddress !== "" || telegramId !== "")) {
+        ensureAlertExists({ emailAddress, telegramId })
           .then((a) => {
             console.log("Alert created", a);
           })
@@ -147,16 +147,16 @@ export const handleSubmit = async ({
 type UnsubscribeProps = {
   clientData: StateProps["clientData"];
   checkSubscribed: boolean;
-  emailInput: string;
-  telegramInput: string;
+  emailAddress: string;
+  telegramId: string;
   telegramConfirmationUrl: string;
 };
 
 export const unsubscribe = ({
   clientData,
   checkSubscribed,
-  emailInput,
-  telegramInput,
+  emailAddress,
+  telegramId,
   telegramConfirmationUrl,
 }: UnsubscribeProps) => {
   if (clientData === null) {
@@ -166,14 +166,14 @@ export const unsubscribe = ({
   const alert = clientData.alerts?.find((a) => a.name === ALERT_NAME);
   if (alert === undefined) {
     checkSubscribed = false;
-    emailInput = "";
-    telegramInput = "";
+    emailAddress = "";
+    telegramId = "";
     telegramConfirmationUrl = "";
   } else {
     checkSubscribed = true;
-    emailInput = alert.targetGroup.emailTargets[0]?.emailAddress ?? "";
+    emailAddress = alert.targetGroup.emailTargets[0]?.emailAddress ?? "";
     const telegramTarget = alert.targetGroup.telegramTargets[0];
-    telegramInput = telegramTarget?.telegramId ?? "";
+    telegramId = telegramTarget?.telegramId ?? "";
     if (telegramTarget !== undefined) {
       telegramConfirmationUrl =
         clientData.telegramTargets.find((t) => t.id === telegramTarget.id)

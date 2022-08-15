@@ -45,7 +45,12 @@
       <Button
         class="p-button-raised p-button-md"
         @click="
-          handleSubmit({ loading, checkSubscribed, emailAddress, telegramId })
+          handleSubmit({
+            loading,
+            checkSubscribed,
+            emailAddress,
+            telegramId,
+          })
         "
         label="Subscribe"
       />
@@ -79,11 +84,25 @@ export default {
       loading: true,
       isConnected: connected,
       checkedSubscribed: null,
-      emailAddress: null,
-      telegramId: null,
     };
   },
   computed: {
+    emailAddress: {
+      get() {
+        return store.state.emailAddress;
+      },
+      set(email: string) {
+        store.commit("updateEmailAddress", email);
+      },
+    },
+    telegramId: {
+      get() {
+        return store.state.telegramId;
+      },
+      set(telegramId: string) {
+        store.commit("updateTelegramId", telegramId);
+      },
+    },
     checkSubscribed: {
       get() {
         return store.state.isSubscribed;
@@ -98,26 +117,15 @@ export default {
     isConnected(connected: boolean) {
       connected;
     },
-    emailAddress(emailAddress: string) {
-      emailAddress;
-    },
-    telegramId(telegramId: string) {
-      telegramId;
-    },
   },
   methods: {
     handleSubmit: function ({
       loading,
       checkSubscribed,
-      emailInput,
-      telegramInput,
+      emailAddress,
+      telegramId,
     }: handleSubmitProps) {
-      handleSubmit({
-        loading,
-        checkSubscribed,
-        emailInput,
-        telegramInput,
-      });
+      handleSubmit({ loading, checkSubscribed, emailAddress, telegramId });
     },
     handleLogin: function (walletStore: MessageSignerWalletAdapter) {
       handleLogin(walletStore);
