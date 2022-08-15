@@ -7,6 +7,7 @@ import Button from "primevue/button";
 import Message from "primevue/message";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputmask";
+import Panel from "primevue/panel";
 import router from "./router";
 
 import "./assets/main.css";
@@ -22,6 +23,8 @@ app.use(PrimeVue);
 app.component("Button", Button);
 app.component("InputSwitch", InputSwitch);
 app.component("InputText", InputText);
+// eslint-disable-next-line vue/multi-word-component-names
+app.component("Panel", Panel);
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Message", Message);
 

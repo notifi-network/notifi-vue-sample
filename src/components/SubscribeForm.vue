@@ -50,6 +50,11 @@
         label="Subscribe"
       />
     </div>
+    <div>
+      <Panel v-if="clientData" header="Debug Data">
+        {{ clientData }}
+      </Panel>
+    </div>
   </div>
 </template>
 
@@ -59,6 +64,7 @@ import { handleSubmit, handleLogin } from "../modules/Subscribe";
 import Button from "primevue/button";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputtext";
+import Panel from "primevue/panel";
 import Message from "primevue/message";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from "solana-wallets-vue";
@@ -73,25 +79,11 @@ export default {
       loading: true,
       isConnected: connected,
       checkedSubscribed: null,
+      emailAddress: null,
+      telegramId: null,
     };
   },
   computed: {
-    emailAddress: {
-      get() {
-        return store.state.emailAddress;
-      },
-      set(email: string) {
-        store.commit("updateEmailAddress", email);
-      },
-    },
-    telegramId: {
-      get() {
-        return store.state.telegramId;
-      },
-      set(telegramId: string) {
-        store.commit("updateTelegramId", telegramId);
-      },
-    },
     checkSubscribed: {
       get() {
         return store.state.isSubscribed;
@@ -100,11 +92,17 @@ export default {
         store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
-    ...mapState(["walletStore", "clientState"]),
+    ...mapState(["walletStore", "clientState", "clientData"]),
   },
   watch: {
     isConnected(connected: boolean) {
       connected;
+    },
+    emailAddress(emailAddress: string) {
+      emailAddress;
+    },
+    telegramId(telegramId: string) {
+      telegramId;
     },
   },
   methods: {
@@ -114,13 +112,18 @@ export default {
       emailInput,
       telegramInput,
     }: handleSubmitProps) {
-      handleSubmit({ loading, checkSubscribed, emailInput, telegramInput });
+      handleSubmit({
+        loading,
+        checkSubscribed,
+        emailInput,
+        telegramInput,
+      });
     },
     handleLogin: function (walletStore: MessageSignerWalletAdapter) {
       handleLogin(walletStore);
     },
   },
   // eslint-disable-next-line vue/no-reserved-component-names
-  components: { Button, InputSwitch, InputText, Message },
+  components: { Button, InputSwitch, InputText, Panel, Message },
 };
 </script>

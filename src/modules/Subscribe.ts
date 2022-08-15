@@ -122,8 +122,6 @@ export const handleSubmit = async ({
 }: handleSubmitProps) => {
   try {
     loading = true;
-    console.log("emailInput", emailInput);
-    console.log("telegramInput", telegramInput);
     if (notifiClient) {
       if (checkSubscribed && (emailInput !== "" || telegramInput !== "")) {
         ensureAlertExists({ emailInput, telegramInput })
