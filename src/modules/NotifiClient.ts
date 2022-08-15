@@ -69,7 +69,7 @@ export class NewNotifiClient implements NotifiClient {
     const data = encoder.encode(`${nonce}${ruuid}`);
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-    store.dispatch('updateClient', {
+    store.commit('updateClient', {
       ...this.stateContainer,
       clientRandomUuid: ruuid,
     });
@@ -182,7 +182,7 @@ export class NewNotifiClient implements NotifiClient {
       transactionSignature,
     });
 
-    store.dispatch("CLIENT_UPDATE", {
+    store.commit("updateClient", {
       ...this.stateContainer,
       clientRandomUuid: null,
     });
@@ -271,7 +271,7 @@ export class NewNotifiClient implements NotifiClient {
       groupName: input.groupName ?? "default",
     });
 
-    store.dispatch("CLIENT_UPDATE_DATA", {
+    store.commit("updateClientData", {
       ...this.dataContainer,
       alerts: [...alerts, newAlert],
     });
@@ -296,7 +296,7 @@ export class NewNotifiClient implements NotifiClient {
         sourceIds,
       });
 
-      store.dispatch("CLIENT_UPDATE_DATA", {
+      store.commit("updateClientData", {
         ...this.dataContainer,
         sourceGroups: [...sourceGroups, newSourceGroup],
       });
@@ -314,7 +314,7 @@ export class NewNotifiClient implements NotifiClient {
         sourceIds,
       });
 
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+      store.commit("updateClientData", {
 		...this.dataContainer,
 		sourceGroups: [
             ...sourceGroups.slice(0, sourceGroups.indexOf(existing)),
@@ -325,7 +325,7 @@ export class NewNotifiClient implements NotifiClient {
 
       return updatedSourceGroup;
     } else {
-		store.dispatch("CLIENT_UPDATE_DATA", {
+    store.commit("updateClientData", {
 			...this.dataContainer,
 			sourceGroups: sourceGroups,
 		  });
@@ -381,7 +381,7 @@ export class NewNotifiClient implements NotifiClient {
         type,
       });
 
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+	  store.commit("updateClientData", {
 		...this.dataContainer,
 		sources: [...sources, newSource],
 	  });
@@ -413,7 +413,7 @@ export class NewNotifiClient implements NotifiClient {
       targetGroups = await this.service.getTargetGroups();
     }
 
-	store.dispatch("CLIENT_UPDATE_DATA", {
+	store.commit("updateClientData", {
 		...this.dataContainer,
 		alerts: alerts.filter((it) => it !== existing),
         sourceGroups: sourceGroups,
@@ -459,7 +459,7 @@ export class NewNotifiClient implements NotifiClient {
       throw new Error("Unable to modify TargetGroup");
     }
 
-	store.dispatch("CLIENT_UPDATE_DATA", {
+	store.commit("updateClientData", {
 		...this.dataContainer,
 		alerts: [
 			...alerts.slice(0, alerts.indexOf(existingAlert)),
@@ -504,7 +504,7 @@ export class NewNotifiClient implements NotifiClient {
         telegramTargetIds,
       });
 
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+	  store.commit("updateClientData", {
 		...this.dataContainer,
 		targetGroups: [...targetGroups, newTargetGroup],
 	  });
@@ -533,7 +533,7 @@ export class NewNotifiClient implements NotifiClient {
       });
       const idx = targetGroups.indexOf(existing);
 
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+	  store.commit("updateClientData", {
 		...this.dataContainer,
 		targetGroups: [
             ...targetGroups.slice(0, idx),
@@ -555,7 +555,7 @@ export class NewNotifiClient implements NotifiClient {
         target.emailAddress?.toLowerCase() === emailAddress.toLowerCase()
     );
     if (existing !== undefined) {
-		store.dispatch("CLIENT_UPDATE_DATA", {
+		store.commit("updateClientData", {
 			...this.dataContainer,
 			emailTargets: emailTargets,
 		  });
@@ -566,7 +566,7 @@ export class NewNotifiClient implements NotifiClient {
         name: emailAddress,
         value: emailAddress,
       });
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+      store.commit("updateClientData", {
 		...this.dataContainer,
 		emailTargets: [...emailTargets, newTarget],
 	  });
@@ -580,7 +580,7 @@ export class NewNotifiClient implements NotifiClient {
       (target) => target.phoneNumber === phoneNumber
     );
     if (existing !== undefined) {
-		store.dispatch("CLIENT_UPDATE_DATA", {
+		store.commit("updateClientData", {
 			...this.dataContainer,
 			smsTargets: smsTargets
 		  });
@@ -590,7 +590,7 @@ export class NewNotifiClient implements NotifiClient {
         name: phoneNumber,
         value: phoneNumber,
       });
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+	  store.commit("updateClientData", {
 		...this.dataContainer,
 		smsTargets: [...smsTargets, newTarget],
 	  });
@@ -608,7 +608,7 @@ export class NewNotifiClient implements NotifiClient {
     );
     if (existing !== undefined) {
 
-		store.dispatch("CLIENT_UPDATE_DATA", {
+		store.commit("updateClientData", {
 			...this.dataContainer,
 			telegramTargets: telegramTargets,
 		  });
@@ -620,7 +620,7 @@ export class NewNotifiClient implements NotifiClient {
         value: telegramId,
       });
 
-	  store.dispatch("CLIENT_UPDATE_DATA", {
+	  store.commit("updateClientData", {
 		...this.dataContainer,
 		telegramTargets: [...telegramTargets, newTarget],
 	  });

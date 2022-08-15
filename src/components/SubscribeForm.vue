@@ -9,7 +9,7 @@
       <Button
         class="p-button-raised p-button-rounded-button-sm"
         @click="handleLogin(walletStore)"
-        label="Login"
+        v-text="clientState.token ? 'Log Out' : 'Log in'"
       />
     </div>
     <div class="communicationChannels">
@@ -98,7 +98,7 @@ export default {
         store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
-    ...mapState(['walletStore']),
+    ...mapState(['walletStore', 'clientState']),
   },
   watch: {
     isConnected(connected: boolean) {
@@ -121,38 +121,3 @@ export default {
   components: { Button, InputSwitch, InputText, Message },
 };
 </script>
-
-<style scoped>
-input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-}
-
-.connectMessage {
-  text-align: center;
-}
-
-.communicationChannels {
-  display: flex;
-  align-items: left;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.subscribeForm {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 40px;
-  color: black;
-}
-
-.subscriptions {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 15px;
-}
-</style>
