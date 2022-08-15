@@ -1,28 +1,24 @@
-import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
-import type { StateProps } from "../store/index";
-import {
-  notifiClientSetup,
-  notifiServiceSetup,
-} from "./NotifiClientSetup";
+import type { NewNotifiClient } from "../modules/NotifiClient";
+import { notifiClientSetup, notifiServiceSetup } from "./NotifiClientSetup";
 import store from "../store/index";
-import { useWallet } from 'solana-wallets-vue';
-import type { NewNotifiClient } from '../modules/NotifiClient';
+import type { StateProps } from "../store/index";
+import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
+import { useWallet } from "solana-wallets-vue";
 
-export let adapter: MessageSignerWalletAdapter | undefined;
-
-adapter = store.state.walletStore;
+export const adapter: MessageSignerWalletAdapter | undefined =
+  store.state.walletStore;
 
 export type handleSubmitProps = {
   loading: boolean;
-  checkSubscribed: boolean,
-  emailInput: string | null;
-  telegramInput: string | null;
+  checkSubscribed: boolean;
+  emailAddress: string | null;
+  telegramId: string | null;
 };
 
-let emailInput = "";
-let telegramInput = "";
-let telegramConfirmationUrl = "";
-let loading = false;
+type targetSubmitProps = {
+  emailAddress: string | null;
+  telegramId: string | null;
+};
 
 const TOPIC_NAME = "notifish__creatorUpdates"; // Talk to us for the right value
 const ALERT_NAME = "Vue Sample Alert";
@@ -34,7 +30,9 @@ const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
 const { publicKey } = useWallet();
 
-export const ensureAlertDeleted = async (notifiClient: NewNotifiClient) => {
+let notifiClient: NewNotifiClient | null;
+
+export const ensureAlertDeleted = async () => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const alertId =
@@ -47,7 +45,10 @@ export const ensureAlertDeleted = async (notifiClient: NewNotifiClient) => {
   }
 };
 
-export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
+export const ensureAlertExists = async ({
+  emailAddress,
+  telegramId,
+}: targetSubmitProps) => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const announcementAlert = data.alerts.find(
@@ -57,9 +58,9 @@ export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
       console.log("Updating alert", announcementAlert.id);
       return notifiClient.updateAlert({
         alertId: announcementAlert.id,
-        emailAddress: emailInput === "" ? null : emailInput,
+        emailAddress: emailAddress === "" ? null : emailAddress,
         phoneNumber: null, // TODO
-        telegramId: telegramInput === "" ? null : telegramInput,
+        telegramId: telegramId === "" ? null : telegramId,
       });
     } else {
       // Make sure the Broadcast source exists
@@ -92,82 +93,87 @@ export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
         name: ALERT_NAME,
         sourceId: source.id,
         filterId,
-        emailAddress: emailInput === "" ? null : emailInput,
+        emailAddress: emailAddress === "" ? null : emailAddress,
         phoneNumber: null, // TODO
-        telegramId: telegramInput === "" ? null : telegramInput,
+        telegramId: telegramId === "" ? null : telegramId,
       });
     }
   }
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
-  const notifiClient = notifiClientSetup({
-    publicKey,
-    dappAddress,
-    notifiService,
-    clientState,
-    clientData,
-  });
   if (store.state.clientState.token) {
-    await notifiClient?.logOut()
-  } else await notifiClient?.logIn(adapter);
-}
-
-export const handleSubmit = ({
-  loading,
-  checkSubscribed,
-  emailInput,
-  telegramInput,
-}: handleSubmitProps) => {
-  try {
-    loading = true;
-    const notifiClient = notifiClientSetup({
+    await notifiClient?.logOut();
+  } else {
+    notifiClient = await notifiClientSetup({
       publicKey,
       dappAddress,
       notifiService,
       clientState,
       clientData,
     });
-    if (notifiClient) {
-    if (
-      checkSubscribed &&
-      (emailInput !== "" || telegramInput !== "")
-    ) {
-      ensureAlertExists(notifiClient)
-        .then((a) => {
-          console.log("Alert created", a);
-        })
-        .catch((e) => alert(e));
-    } else {
-      ensureAlertDeleted(notifiClient)
-        .then(() => {
-          console.log("Alert deleted");
-        })
-        .catch((e) => alert(e));
-    }
+    await notifiClient?.logIn(adapter);
   }
+};
+
+export const handleSubmit = async ({
+  loading,
+  checkSubscribed,
+  emailAddress,
+  telegramId,
+}: handleSubmitProps) => {
+  try {
+    loading = true;
+    if (notifiClient) {
+      if (checkSubscribed && (emailAddress !== "" || telegramId !== "")) {
+        ensureAlertExists({ emailAddress, telegramId })
+          .then((a) => {
+            console.log("Alert created", a);
+          })
+          .catch((e) => alert(e));
+      } else {
+        ensureAlertDeleted()
+          .then(() => {
+            console.log("Alert deleted");
+          })
+          .catch((e) => alert(e));
+      }
+    }
   } finally {
     loading = false;
   }
 };
 
-export const unsubscribe = (clientData: StateProps["clientData"], checkSubscribed: boolean) => {
-  if (clientData === null || loading) {
+type UnsubscribeProps = {
+  clientData: StateProps["clientData"];
+  checkSubscribed: boolean;
+  emailAddress: string;
+  telegramId: string;
+  telegramConfirmationUrl: string;
+};
+
+export const unsubscribe = ({
+  clientData,
+  checkSubscribed,
+  emailAddress,
+  telegramId,
+  telegramConfirmationUrl,
+}: UnsubscribeProps) => {
+  if (clientData === null) {
     return;
   }
 
   const alert = clientData.alerts?.find((a) => a.name === ALERT_NAME);
   if (alert === undefined) {
     checkSubscribed = false;
-    emailInput = "";
-    telegramInput = "";
+    emailAddress = "";
+    telegramId = "";
     telegramConfirmationUrl = "";
   } else {
     checkSubscribed = true;
-    emailInput = alert.targetGroup.emailTargets[0]?.emailAddress ?? "";
-
+    emailAddress = alert.targetGroup.emailTargets[0]?.emailAddress ?? "";
     const telegramTarget = alert.targetGroup.telegramTargets[0];
-    telegramInput = telegramTarget?.telegramId ?? "";
+    telegramId = telegramTarget?.telegramId ?? "";
     if (telegramTarget !== undefined) {
       telegramConfirmationUrl =
         clientData.telegramTargets.find((t) => t.id === telegramTarget.id)

@@ -6,14 +6,10 @@
 </template>
 
 <script lang="ts">
-import NotifiHeader from '../components/NotifiHeader.vue';
-import SubscribeForm from '../components/SubscribeForm.vue';
-
+import NotifiHeader from "../components/NotifiHeader.vue";
+import SubscribeForm from "../components/SubscribeForm.vue";
 
 export default {
-  components: {NotifiHeader, SubscribeForm}
-}
-
+  components: { NotifiHeader, SubscribeForm },
+};
 </script>
-
-

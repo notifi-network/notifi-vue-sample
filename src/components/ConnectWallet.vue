@@ -5,14 +5,10 @@
 </template>
 
 <script lang="ts">
-import { initWallet } from "solana-wallets-vue";
-import "solana-wallets-vue/styles.css";
-
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
-import { useWallet } from "solana-wallets-vue";
+import { initWallet, WalletMultiButton } from "solana-wallets-vue";
 import store from "../store/index";
-
-import { WalletMultiButton } from "solana-wallets-vue";
+import "solana-wallets-vue/styles.css";
 
 const walletOptions = {
   wallets: [new PhantomWalletAdapter()],

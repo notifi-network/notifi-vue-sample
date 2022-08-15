@@ -17,7 +17,7 @@ label {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -27,8 +27,8 @@ label {
   position: absolute;
   cursor: pointer;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   height: 26px;
   width: 60px;
 }
@@ -41,16 +41,16 @@ label {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -59,3 +59,62 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
+.metaInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: black;
+  margin-bottom: 50px;
+}
+
+#dappAddress,
+#devEnvironment {
+  display: inline-block;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.connectMessage {
+  text-align: center;
+}
+
+.communicationChannels {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.subscribeForm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  color: black;
+}
+
+.subscriptions {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}

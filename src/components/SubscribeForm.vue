@@ -9,8 +9,9 @@
       <Button
         class="p-button-raised p-button-rounded-button-sm"
         @click="handleLogin(walletStore)"
-        label="Login"
-      />
+      >
+        {{ clientState.token ? "Log Out" : "Log In" }}
+      </Button>
     </div>
     <div class="communicationChannels">
       <div>
@@ -44,25 +45,45 @@
       <Button
         class="p-button-raised p-button-md"
         @click="
-          handleSubmit({ loading, checkSubscribed, emailAddress, telegramId })
+          handleSubmit({
+            loading,
+            checkSubscribed,
+            emailAddress,
+            telegramId,
+          })
         "
-        label="Subscribe"
-      />
+      >
+        {{
+          clientData == null ||
+          clientData.alerts?.find(
+            (a: Alert) => a.name === "Vue Sample Alert"
+          ) == undefined
+            ? "Subscribe"
+            : "Save Changes"
+        }}
+      </Button>
+    </div>
+    <div>
+      <Panel v-if="clientData" header="Debug Data">
+        {{ clientData }}
+      </Panel>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import type { handleSubmitProps } from "../modules/Subscribe";
+import { handleSubmit, handleLogin } from "../modules/Subscribe";
+import type { Alert } from "@notifi-network/notifi-core";
 import Button from "primevue/button";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputtext";
+import Panel from "primevue/panel";
 import Message from "primevue/message";
-import { handleSubmit, handleLogin } from "../modules/Subscribe";
-import { mapState } from 'vuex';
-import type { handleSubmitProps } from "../modules/Subscribe";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from "solana-wallets-vue";
 import store from "../store/index";
+import { mapState } from "vuex";
 
 const { connected } = useWallet();
 
@@ -71,6 +92,7 @@ export default {
     return {
       loading: true,
       isConnected: connected,
+      checkedSubscribed: null,
     };
   },
   computed: {
@@ -98,7 +120,7 @@ export default {
         store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
-    ...mapState(['walletStore']),
+    ...mapState(["walletStore", "clientState", "clientData"]),
   },
   watch: {
     isConnected(connected: boolean) {
@@ -109,50 +131,16 @@ export default {
     handleSubmit: function ({
       loading,
       checkSubscribed,
-      emailInput,
-      telegramInput,
+      emailAddress,
+      telegramId,
     }: handleSubmitProps) {
-      handleSubmit({ loading, checkSubscribed, emailInput, telegramInput });
+      handleSubmit({ loading, checkSubscribed, emailAddress, telegramId });
     },
     handleLogin: function (walletStore: MessageSignerWalletAdapter) {
       handleLogin(walletStore);
     },
   },
-  components: { Button, InputSwitch, InputText, Message },
+  // eslint-disable-next-line vue/no-reserved-component-names
+  components: { Button, InputSwitch, InputText, Panel, Message },
 };
 </script>
-
-<style scoped>
-input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-}
-
-.connectMessage {
-  text-align: center;
-}
-
-.communicationChannels {
-  display: flex;
-  align-items: left;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.subscribeForm {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 40px;
-  color: black;
-}
-
-.subscriptions {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 15px;
-}
-</style>
