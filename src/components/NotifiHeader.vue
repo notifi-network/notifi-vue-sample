@@ -16,11 +16,12 @@
 
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
+import Dropdown from "primevue/dropdown";
 import InputText from "primevue/inputtext";
 import store from "../store/index";
 
 export default {
-  components: { ConnectWallet, InputText },
+  components: { ConnectWallet, Dropdown, InputText },
   computed: {
     dappAddress: {
       get() {
