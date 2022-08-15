@@ -46,7 +46,7 @@ export type StateProps = {
 };
 
 const state: StateProps = {
-  dappAddress: "notifi",
+  dappAddress: "ASK_NOTIFI_FOR_THIS",
   notifiEnvironment: "Development",
   clientState: {
     clientRandomUuid: null,
