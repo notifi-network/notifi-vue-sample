@@ -1,5 +1,6 @@
 import type { NewNotifiClient } from "../modules/NotifiClient";
 import { notifiClientSetup, notifiServiceSetup } from "./NotifiClientSetup";
+import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 import store from "../store/index";
 import type { StateProps } from "../store/index";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
@@ -23,10 +24,10 @@ type targetSubmitProps = {
 const TOPIC_NAME = "notifish__creatorUpdates"; // Talk to us for the right value
 const ALERT_NAME = "Vue Sample Alert";
 
-const dappAddress = store.state.dappAddress;
-const clientState = store.state.clientState;
+let dappAddress;
+let notifiEnvironment;
+const clientState = store.getters.clientState;
 const clientData = store.state.clientData;
-const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
 const { publicKey } = useWallet();
 
@@ -101,17 +102,27 @@ export const ensureAlertExists = async ({
   }
 };
 
+async function setUpClient(dappAddress: string, notifiEnvironment: NotifiEnvironment) {
+  const notifiService = await notifiServiceSetup(notifiEnvironment);
+
+  notifiClient = await notifiClientSetup({
+    publicKey,
+    dappAddress,
+    notifiService,
+    clientState,
+    clientData,
+  });
+
+  return notifiClient
+}
+
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
+  dappAddress = store.getters.getDappAddress();
+  notifiEnvironment = store.getters.getNotifiEnvironment();
   if (store.state.clientState.token) {
     await notifiClient?.logOut();
   } else {
-    notifiClient = await notifiClientSetup({
-      publicKey,
-      dappAddress,
-      notifiService,
-      clientState,
-      clientData,
-    });
+    await setUpClient(dappAddress, notifiEnvironment);
     await notifiClient?.logIn(adapter);
   }
 };
