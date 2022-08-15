@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
-import { mapState } from 'vuex';
 import InputText from "primevue/inputtext";
+import { mapState } from 'vuex';
 
 export default {
   computed: {

@@ -24,10 +24,9 @@ import type {
 } from "@notifi-network/notifi-core";
 import type { MessageSignerWalletAdapterProps } from "@solana/wallet-adapter-base";
 import type { PublicKey } from "@solana/web3.js";
+import store from "@/store";
 import type { StateProps } from "../store/index";
 import type { Ref } from "vue";
-import { ref } from "vue";
-import store from "@/store";
 
 export class NewNotifiClient implements NotifiClient {
   dappAddress: string;

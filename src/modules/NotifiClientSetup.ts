@@ -1,11 +1,11 @@
 
+import { NewNotifiClient } from '../modules/NotifiClient';
 import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 import { notifiConfigs } from "@notifi-network/notifi-axios-utils";
 import { NotifiAxiosService } from "@notifi-network/notifi-axios-adapter";
+import type { PublicKey } from "@solana/web3.js";
 import type { StateProps } from '../store/index';
 import store from "@/store";
-import { NewNotifiClient } from '../modules/NotifiClient';
-import type { PublicKey } from "@solana/web3.js";
 import type { Ref } from "vue";
 
 export const notifiServiceSetup = (notifiEnvironment : NotifiEnvironment) => {

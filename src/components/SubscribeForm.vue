@@ -53,24 +53,26 @@
 </template>
 
 <script lang="ts">
+import type { handleSubmitProps } from "../modules/Subscribe";
+import { handleSubmit, handleLogin } from "../modules/Subscribe";
 import Button from "primevue/button";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputtext";
 import Message from "primevue/message";
-import { handleSubmit, handleLogin } from "../modules/Subscribe";
-import { mapState } from 'vuex';
-import type { handleSubmitProps } from "../modules/Subscribe";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from "solana-wallets-vue";
 import store from "../store/index";
+import { mapState } from 'vuex';
 
 const { connected } = useWallet();
+
 
 export default {
   data() {
     return {
       loading: true,
       isConnected: connected,
+      checkedSubscribed: null,
     };
   },
   computed: {
@@ -114,7 +116,7 @@ export default {
     }: handleSubmitProps) {
       handleSubmit({ loading, checkSubscribed, emailInput, telegramInput });
     },
-    handleLogin: function (walletStore: MessageSignerWalletAdapter) {
+    handleLogin: function (walletStore: MessageSignerWalletAdapter) {  
       handleLogin(walletStore);
     },
   },

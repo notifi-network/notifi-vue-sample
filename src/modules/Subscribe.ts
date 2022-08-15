@@ -1,12 +1,12 @@
-import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
-import type { StateProps } from "../store/index";
+import type { NewNotifiClient } from '../modules/NotifiClient';
 import {
   notifiClientSetup,
   notifiServiceSetup,
 } from "./NotifiClientSetup";
 import store from "../store/index";
+import type { StateProps } from "../store/index";
+import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from 'solana-wallets-vue';
-import type { NewNotifiClient } from '../modules/NotifiClient';
 
 export let adapter: MessageSignerWalletAdapter | undefined;
 
@@ -19,10 +19,10 @@ export type handleSubmitProps = {
   telegramInput: string | null;
 };
 
-let emailInput = "";
-let telegramInput = "";
-let telegramConfirmationUrl = "";
-let loading = false;
+type targetSubmitProps = {
+  emailInput: string | null,
+  telegramInput: string | null,
+}
 
 const TOPIC_NAME = "notifish__creatorUpdates"; // Talk to us for the right value
 const ALERT_NAME = "Vue Sample Alert";
@@ -49,7 +49,7 @@ export const ensureAlertDeleted = async () => {
   }
 };
 
-export const ensureAlertExists = async () => {
+export const ensureAlertExists = async ({emailInput, telegramInput}: targetSubmitProps) => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const announcementAlert = data.alerts.find(
@@ -123,12 +123,14 @@ export const handleSubmit = async ({
 }: handleSubmitProps) => {
   try {
     loading = true;
+    console.log('emailInput', emailInput);
+    console.log('telegramInput', telegramInput);
     if (notifiClient) {
     if (
       checkSubscribed &&
       (emailInput !== "" || telegramInput !== "")
     ) {
-      ensureAlertExists()
+      ensureAlertExists({emailInput, telegramInput})
         .then((a) => {
           console.log("Alert created", a);
         })
@@ -147,7 +149,7 @@ export const handleSubmit = async ({
 };
 
 export const unsubscribe = (clientData: StateProps["clientData"], checkSubscribed: boolean) => {
-  if (clientData === null || loading) {
+  if (clientData === null) {
     return;
   }
 
