@@ -7,12 +7,7 @@
       </div>
       <div id="devEnvironment">
         <label>Environment:</label>
-        <Dropdown
-          v-model="notifiEnvironment"
-          :options="environments"
-          optionLabel="name"
-          placeholder="Select an environment"
-        />
+        <InputText v-model="notifiEnvironment"></InputText>
       </div>
     </div>
     <ConnectWallet></ConnectWallet>
@@ -21,7 +16,6 @@
 
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
-import Dropdown from "primevue/dropdown";
 import InputText from "primevue/inputtext";
 import store from "../store/index";
 
@@ -36,7 +30,7 @@ export default {
       ],
     };
   },
-  components: { ConnectWallet, Dropdown, InputText },
+  components: { ConnectWallet, InputText },
   computed: {
     dappAddress: {
       get() {
