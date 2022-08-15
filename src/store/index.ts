@@ -6,6 +6,7 @@ import {
   UPDATE_TELEGRAM,
   UPDATE_IS_SUBSCRIBED,
   UPDATE_WALLET_STORE,
+  UPDATE_DAPP_ADDRESS,
 } from "./mutation-types";
 import type {
   Alert,
@@ -112,6 +113,12 @@ const mutations = {
   ) {
     return (state.walletStore = walletStore);
   },
+  [UPDATE_DAPP_ADDRESS](
+    state: StateProps,
+    dappAddress: string
+  ) {
+    return (state.dappAddress = dappAddress);
+  },
 };
 
 const actions = {
@@ -150,6 +157,12 @@ const actions = {
     walletStore: MessageSignerWalletAdapter
   ) {
     context.commit("updateWalletStore", walletStore);
+  },
+  [UPDATE_DAPP_ADDRESS](
+    context: ActionContext<StateProps, StateProps>,
+    dappAddress: string
+  ) {
+    context.commit("updateDappAddress", dappAddress);
   },
 };
 

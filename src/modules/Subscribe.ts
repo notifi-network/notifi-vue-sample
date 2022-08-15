@@ -23,8 +23,8 @@ type targetSubmitProps = {
 const TOPIC_NAME = "notifish__creatorUpdates"; // Talk to us for the right value
 const ALERT_NAME = "Vue Sample Alert";
 
-const dappAddress = store.state.dappAddress;
-const clientState = store.state.clientState;
+let dappAddress;
+const clientState = store.getters.clientState;
 const clientData = store.state.clientData;
 const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
@@ -102,6 +102,7 @@ export const ensureAlertExists = async ({
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
+  dappAddress = store.getters.getDappAddress();
   if (store.state.clientState.token) {
     await notifiClient?.logOut();
   } else {

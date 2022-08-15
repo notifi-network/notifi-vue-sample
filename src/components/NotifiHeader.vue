@@ -16,12 +16,27 @@
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
 import InputText from "primevue/inputtext";
-import { mapState } from "vuex";
+import store from "../store/index";
 
 export default {
   components: { ConnectWallet, InputText },
   computed: {
-    ...mapState(["dappAddress", "notifiEnvironment"]),
+   dappAddress: {
+      get() {
+        return store.state.dappAddress;
+      },
+      set(dappAddress: string) {
+        store.commit("updateDappAddress", dappAddress);
+      },
+    },
+    notifiEnvironment: {
+      get() {
+        return store.state.notifiEnvironment;
+      },
+      set(notifiEnvironment: string) {
+        store.commit("updateNotifiEnvironment", notifiEnvironment);
+      },
+    },
   },
 };
 </script>
