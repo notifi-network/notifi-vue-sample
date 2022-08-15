@@ -64,7 +64,7 @@
       </Button>
     </div>
     <div>
-      <Panel v-if="clientData.alerts.length > 0" header="Debug Data">
+      <Panel v-if="clientData" header="Debug Data">
         {{ clientData }}
       </Panel>
     </div>
