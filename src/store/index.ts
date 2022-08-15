@@ -1,5 +1,12 @@
 import { createStore } from "vuex";
-import { UPDATE_CLIENT, UPDATE_CLIENT_DATA, UPDATE_EMAIL, UPDATE_TELEGRAM, UPDATE_IS_SUBSCRIBED, UPDATE_WALLET_STORE } from "./mutation-types";
+import {
+  UPDATE_CLIENT,
+  UPDATE_CLIENT_DATA,
+  UPDATE_EMAIL,
+  UPDATE_TELEGRAM,
+  UPDATE_IS_SUBSCRIBED,
+  UPDATE_WALLET_STORE,
+} from "./mutation-types";
 import type {
   Alert,
   EmailTarget,
@@ -12,6 +19,7 @@ import type {
 } from "@notifi-network/notifi-core";
 import type { NotifiEnvironment } from "@notifi-network/notifi-axios-utils";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
+import type { ActionContext } from "vuex";
 
 export type StateProps = {
   dappAddress: string;
@@ -22,22 +30,22 @@ export type StateProps = {
     roles: Array<string>;
   };
   clientData: {
-    alerts: ReadonlyArray<Alert>,
-    filters: ReadonlyArray<Filter>,
-    sources: ReadonlyArray<Source>,
-    sourceGroups: ReadonlyArray<SourceGroup>,
-    targetGroups: ReadonlyArray<TargetGroup>,
-    emailTargets: ReadonlyArray<EmailTarget>,
-    smsTargets: ReadonlyArray<SmsTarget>,
-    telegramTargets: ReadonlyArray<TelegramTarget>,
-  }
+    alerts: ReadonlyArray<Alert>;
+    filters: ReadonlyArray<Filter>;
+    sources: ReadonlyArray<Source>;
+    sourceGroups: ReadonlyArray<SourceGroup>;
+    targetGroups: ReadonlyArray<TargetGroup>;
+    emailTargets: ReadonlyArray<EmailTarget>;
+    smsTargets: ReadonlyArray<SmsTarget>;
+    telegramTargets: ReadonlyArray<TelegramTarget>;
+  };
   emailAddress: string | null;
   telegramId: string | null;
   isSubscribed: boolean;
   walletStore: MessageSignerWalletAdapter | undefined;
 };
 
-const state : StateProps = {
+const state: StateProps = {
   dappAddress: "notifi",
   notifiEnvironment: "Development",
   clientState: {
@@ -83,7 +91,10 @@ const mutations = {
   [UPDATE_CLIENT](state: StateProps, clientState: StateProps["clientState"]) {
     return (state.clientState = { ...clientState });
   },
-  [UPDATE_CLIENT_DATA](state: StateProps, clientData: StateProps["clientData"]) {
+  [UPDATE_CLIENT_DATA](
+    state: StateProps,
+    clientData: StateProps["clientData"]
+  ) {
     return (state.clientData = { ...clientData });
   },
   [UPDATE_EMAIL](state: StateProps, emailAddress: string) {
@@ -95,7 +106,10 @@ const mutations = {
   [UPDATE_IS_SUBSCRIBED](state: StateProps, isSubscribed: boolean) {
     return (state.isSubscribed = isSubscribed);
   },
-  [UPDATE_WALLET_STORE](state: StateProps, walletStore: MessageSignerWalletAdapter) {
+  [UPDATE_WALLET_STORE](
+    state: StateProps,
+    walletStore: MessageSignerWalletAdapter
+  ) {
     return (state.walletStore = walletStore);
   },
 };
@@ -116,7 +130,7 @@ const actions = {
   [UPDATE_IS_SUBSCRIBED](context: any, isSubscribed: boolean) {
     context.commit("UPDATE_IS_SUBSCRIBED", isSubscribed);
   },
-  [UPDATE_WALLET_STORE](context: any,  walletStore: MessageSignerWalletAdapter) {
+  [UPDATE_WALLET_STORE](context: any, walletStore: MessageSignerWalletAdapter) {
     context.commit("UPDATE_WALLET_STORE", walletStore);
   },
 };

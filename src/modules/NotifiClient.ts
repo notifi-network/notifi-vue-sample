@@ -18,7 +18,6 @@ import type {
   SmsTarget,
   Source,
   SourceGroup,
-  TargetGroup,
   TelegramTarget,
   User,
 } from "@notifi-network/notifi-core";
@@ -39,7 +38,7 @@ export class NewNotifiClient implements NotifiClient {
   constructor(
     dappAddress: string,
     publicKey: Ref<PublicKey | null>,
-    service: any,
+    service: NotifiService,
     stateContainer: StateProps["clientState"],
     dataContainer: StateProps["clientData"]
   ) {
@@ -53,7 +52,7 @@ export class NewNotifiClient implements NotifiClient {
 
   beginLoginViaTransaction = async () => {
     const result = await this.service.beginLogInByTransaction({
-      walletAddress: this.walletAddress !== undefined ? this.walletAddress : '',
+      walletAddress: this.walletAddress !== undefined ? this.walletAddress : "",
       walletBlockchain: "SOLANA",
       dappAddress: this.dappAddress,
     });
@@ -68,7 +67,7 @@ export class NewNotifiClient implements NotifiClient {
     const data = encoder.encode(`${nonce}${ruuid}`);
     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-    store.commit('updateClient', {
+    store.commit("updateClient", {
       ...this.stateContainer,
       clientRandomUuid: ruuid,
     });
@@ -174,7 +173,7 @@ export class NewNotifiClient implements NotifiClient {
 
     const { transactionSignature } = input;
     const result = await this.service.completeLogInByTransaction({
-      walletAddress: this.walletAddress !== undefined ? this.walletAddress : '',
+      walletAddress: this.walletAddress !== undefined ? this.walletAddress : "",
       walletBlockchain: "SOLANA",
       dappAddress: this.dappAddress,
       randomUuid: ruuid,
@@ -208,7 +207,8 @@ export class NewNotifiClient implements NotifiClient {
     });
 
     const result = await this.service.logInFromDapp({
-      walletPublicKey: this.walletAddress !== undefined ? this.walletAddress : '',
+      walletPublicKey:
+        this.walletAddress !== undefined ? this.walletAddress : "",
       dappAddress: this.dappAddress,
       timestamp,
       signature,
@@ -314,20 +314,20 @@ export class NewNotifiClient implements NotifiClient {
       });
 
       store.commit("updateClientData", {
-		...this.dataContainer,
-		sourceGroups: [
-            ...sourceGroups.slice(0, sourceGroups.indexOf(existing)),
-            updatedSourceGroup,
-            ...sourceGroups.slice(sourceGroups.indexOf(existing) + 1),
+        ...this.dataContainer,
+        sourceGroups: [
+          ...sourceGroups.slice(0, sourceGroups.indexOf(existing)),
+          updatedSourceGroup,
+          ...sourceGroups.slice(sourceGroups.indexOf(existing) + 1),
         ],
-	  });
+      });
 
       return updatedSourceGroup;
     } else {
-    store.commit("updateClientData", {
-			...this.dataContainer,
-			sourceGroups: sourceGroups,
-		  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        sourceGroups: sourceGroups,
+      });
 
       return existing;
     }
@@ -380,10 +380,10 @@ export class NewNotifiClient implements NotifiClient {
         type,
       });
 
-	  store.commit("updateClientData", {
-		...this.dataContainer,
-		sources: [...sources, newSource],
-	  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        sources: [...sources, newSource],
+      });
 
       return newSource;
     }
@@ -412,12 +412,12 @@ export class NewNotifiClient implements NotifiClient {
       targetGroups = await this.service.getTargetGroups();
     }
 
-	store.commit("updateClientData", {
-		...this.dataContainer,
-		alerts: alerts.filter((it) => it !== existing),
-        sourceGroups: sourceGroups,
-        targetGroups: targetGroups,
-	  });
+    store.commit("updateClientData", {
+      ...this.dataContainer,
+      alerts: alerts.filter((it) => it !== existing),
+      sourceGroups: sourceGroups,
+      targetGroups: targetGroups,
+    });
 
     return result.id;
   };
@@ -429,7 +429,8 @@ export class NewNotifiClient implements NotifiClient {
   };
 
   getTopics = async () => {
-    const roles : StateProps["clientState"]["roles"] = store.getters.clientState.roles;
+    const roles: StateProps["clientState"]["roles"] =
+      store.getters.clientState.roles;
     if (!roles.some((role) => role === "UserMessenger")) {
       throw new Error("This user is not authorized for getTopics!");
     }
@@ -458,14 +459,14 @@ export class NewNotifiClient implements NotifiClient {
       throw new Error("Unable to modify TargetGroup");
     }
 
-	store.commit("updateClientData", {
-		...this.dataContainer,
-		alerts: [
-			...alerts.slice(0, alerts.indexOf(existingAlert)),
-			{ ...existingAlert, targetGroup },
-			...alerts.slice(alerts.indexOf(existingAlert) + 1),
-		  ],
-	  });
+    store.commit("updateClientData", {
+      ...this.dataContainer,
+      alerts: [
+        ...alerts.slice(0, alerts.indexOf(existingAlert)),
+        { ...existingAlert, targetGroup },
+        ...alerts.slice(alerts.indexOf(existingAlert) + 1),
+      ],
+    });
 
     return existingAlert;
   };
@@ -503,10 +504,10 @@ export class NewNotifiClient implements NotifiClient {
         telegramTargetIds,
       });
 
-	  store.commit("updateClientData", {
-		...this.dataContainer,
-		targetGroups: [...targetGroups, newTargetGroup],
-	  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        targetGroups: [...targetGroups, newTargetGroup],
+      });
 
       return newTargetGroup;
     } else if (
@@ -532,14 +533,14 @@ export class NewNotifiClient implements NotifiClient {
       });
       const idx = targetGroups.indexOf(existing);
 
-	  store.commit("updateClientData", {
-		...this.dataContainer,
-		targetGroups: [
-            ...targetGroups.slice(0, idx),
-            updatedTargetGroup,
-            ...targetGroups.slice(idx + 1),
-          ],
-	  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        targetGroups: [
+          ...targetGroups.slice(0, idx),
+          updatedTargetGroup,
+          ...targetGroups.slice(idx + 1),
+        ],
+      });
 
       return updatedTargetGroup;
     } else {
@@ -554,10 +555,10 @@ export class NewNotifiClient implements NotifiClient {
         target.emailAddress?.toLowerCase() === emailAddress.toLowerCase()
     );
     if (existing !== undefined) {
-		store.commit("updateClientData", {
-			...this.dataContainer,
-			emailTargets: emailTargets,
-		  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        emailTargets: emailTargets,
+      });
 
       return existing;
     } else {
@@ -566,9 +567,9 @@ export class NewNotifiClient implements NotifiClient {
         value: emailAddress,
       });
       store.commit("updateClientData", {
-		...this.dataContainer,
-		emailTargets: [...emailTargets, newTarget],
-	  });
+        ...this.dataContainer,
+        emailTargets: [...emailTargets, newTarget],
+      });
       return newTarget;
     }
   };
@@ -579,20 +580,20 @@ export class NewNotifiClient implements NotifiClient {
       (target) => target.phoneNumber === phoneNumber
     );
     if (existing !== undefined) {
-		store.commit("updateClientData", {
-			...this.dataContainer,
-			smsTargets: smsTargets
-		  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        smsTargets: smsTargets,
+      });
       return existing;
     } else {
       const newTarget = await this.service.createSmsTarget({
         name: phoneNumber,
         value: phoneNumber,
       });
-	  store.commit("updateClientData", {
-		...this.dataContainer,
-		smsTargets: [...smsTargets, newTarget],
-	  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        smsTargets: [...smsTargets, newTarget],
+      });
 
       return newTarget;
     }
@@ -606,11 +607,10 @@ export class NewNotifiClient implements NotifiClient {
       (target) => target.telegramId?.toLowerCase() === telegramId.toLowerCase()
     );
     if (existing !== undefined) {
-
-		store.commit("updateClientData", {
-			...this.dataContainer,
-			telegramTargets: telegramTargets,
-		  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        telegramTargets: telegramTargets,
+      });
 
       return existing;
     } else {
@@ -619,10 +619,10 @@ export class NewNotifiClient implements NotifiClient {
         value: telegramId,
       });
 
-	  store.commit("updateClientData", {
-		...this.dataContainer,
-		telegramTargets: [...telegramTargets, newTarget],
-	  });
+      store.commit("updateClientData", {
+        ...this.dataContainer,
+        telegramTargets: [...telegramTargets, newTarget],
+      });
 
       return newTarget;
     }
@@ -657,8 +657,8 @@ export class NewNotifiClient implements NotifiClient {
 
     const newData = await this._fetchInternalData();
     store.commit("updateClientData", {
-		newData
-	  });
+      newData,
+    });
   };
 
   _signMessage = async (

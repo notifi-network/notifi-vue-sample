@@ -9,8 +9,9 @@
       <Button
         class="p-button-raised p-button-rounded-button-sm"
         @click="handleLogin(walletStore)"
-        v-text="clientState.token ? 'Log Out' : 'Log in'"
-      />
+      >
+        {{ clientState.token ? "Log Out" : "Log In" }}
+      </Button>
     </div>
     <div class="communicationChannels">
       <div>
@@ -62,10 +63,9 @@ import Message from "primevue/message";
 import type { MessageSignerWalletAdapter } from "@solana/wallet-adapter-base";
 import { useWallet } from "solana-wallets-vue";
 import store from "../store/index";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 const { connected } = useWallet();
-
 
 export default {
   data() {
@@ -100,7 +100,7 @@ export default {
         store.commit("updateSubscription", !store.state.isSubscribed);
       },
     },
-    ...mapState(['walletStore', 'clientState']),
+    ...mapState(["walletStore", "clientState"]),
   },
   watch: {
     isConnected(connected: boolean) {
@@ -116,10 +116,11 @@ export default {
     }: handleSubmitProps) {
       handleSubmit({ loading, checkSubscribed, emailInput, telegramInput });
     },
-    handleLogin: function (walletStore: MessageSignerWalletAdapter) {  
+    handleLogin: function (walletStore: MessageSignerWalletAdapter) {
       handleLogin(walletStore);
     },
   },
+  // eslint-disable-next-line vue/no-reserved-component-names
   components: { Button, InputSwitch, InputText, Message },
 };
 </script>
