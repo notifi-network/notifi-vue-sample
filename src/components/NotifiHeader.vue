@@ -1,18 +1,13 @@
 <template>
   <div class="header">
     <div class="metaInfo">
-      <div id="dappAddress">
+    <div id="dappAddress">
         <label>Dapp ID:</label>
         <InputText v-model="dappAddress"></InputText>
       </div>
       <div id="devEnvironment">
         <label>Environment:</label>
-        <Dropdown
-          v-model="notifiEnvironment"
-          :options="environments"
-          optionLabel="name"
-          placeholder="Select an environment"
-        />
+         <InputText v-model="notifiEnvironment"></InputText>
       </div>
     </div>
     <ConnectWallet></ConnectWallet>
@@ -21,22 +16,11 @@
 
 <script lang="ts">
 import ConnectWallet from "../components/ConnectWallet.vue";
-import Dropdown from "primevue/dropdown";
 import InputText from "primevue/inputtext";
 import store from "../store/index";
 
 export default {
-  data() {
-    return {
-      environments: [
-        { name: "Local" },
-        { name: "Production" },
-        { name: "Development" },
-        { name: "Staging" },
-      ],
-    };
-  },
-  components: { ConnectWallet, Dropdown, InputText },
+  components: { ConnectWallet, InputText },
   computed: {
     dappAddress: {
       get() {

@@ -4,7 +4,6 @@ import { createPinia } from "pinia";
 import App from "../src/App.vue";
 import PrimeVue from "primevue/config";
 import Button from "primevue/button";
-import Dropdown from 'primevue/dropdown';
 import Message from "primevue/message";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputmask";
@@ -22,7 +21,6 @@ const app = createApp(App).use(store);
 app.use(PrimeVue);
 // eslint-disable-next-line vue/multi-word-component-names, vue/no-reserved-component-names
 app.component("Button", Button);
-app.component("Dropdown", Dropdown);
 app.component("InputSwitch", InputSwitch);
 app.component("InputText", InputText);
 // eslint-disable-next-line vue/multi-word-component-names
