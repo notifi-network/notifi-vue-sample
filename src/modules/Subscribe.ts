@@ -34,7 +34,9 @@ const notifiService = notifiServiceSetup(store.state.notifiEnvironment);
 
 const { publicKey } = useWallet();
 
-export const ensureAlertDeleted = async (notifiClient: NewNotifiClient) => {
+let notifiClient : NewNotifiClient | null;
+
+export const ensureAlertDeleted = async () => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const alertId =
@@ -47,7 +49,7 @@ export const ensureAlertDeleted = async (notifiClient: NewNotifiClient) => {
   }
 };
 
-export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
+export const ensureAlertExists = async () => {
   if (notifiClient) {
     const data = await notifiClient.fetchData();
     const announcementAlert = data.alerts.find(
@@ -101,7 +103,7 @@ export const ensureAlertExists = async (notifiClient: NewNotifiClient) => {
 };
 
 export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
-  const notifiClient = notifiClientSetup({
+  notifiClient = await notifiClientSetup({
     publicKey,
     dappAddress,
     notifiService,
@@ -113,7 +115,7 @@ export const handleLogin = async (adapter: MessageSignerWalletAdapter) => {
   } else await notifiClient?.logIn(adapter);
 }
 
-export const handleSubmit = ({
+export const handleSubmit = async ({
   loading,
   checkSubscribed,
   emailInput,
@@ -121,25 +123,18 @@ export const handleSubmit = ({
 }: handleSubmitProps) => {
   try {
     loading = true;
-    const notifiClient = notifiClientSetup({
-      publicKey,
-      dappAddress,
-      notifiService,
-      clientState,
-      clientData,
-    });
     if (notifiClient) {
     if (
       checkSubscribed &&
       (emailInput !== "" || telegramInput !== "")
     ) {
-      ensureAlertExists(notifiClient)
+      ensureAlertExists()
         .then((a) => {
           console.log("Alert created", a);
         })
         .catch((e) => alert(e));
     } else {
-      ensureAlertDeleted(notifiClient)
+      ensureAlertDeleted()
         .then(() => {
           console.log("Alert deleted");
         })
