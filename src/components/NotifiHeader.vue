@@ -8,7 +8,7 @@
       <div id="devEnvironment">
         <label>Environment:</label>
         <Dropdown
-          v-model="notifiEnvironemnt"
+          v-model="notifiEnvironment"
           :options="environments"
           optionLabel="name"
           placeholder="Select an environment"
