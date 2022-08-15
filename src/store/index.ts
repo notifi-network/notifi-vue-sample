@@ -115,23 +115,41 @@ const mutations = {
 };
 
 const actions = {
-  [UPDATE_CLIENT](context: any, clientState: StateProps["clientState"]) {
-    context.commit("UPDATE_CLIENT", clientState);
+  [UPDATE_CLIENT](
+    context: ActionContext<StateProps, StateProps>,
+    clientState: StateProps["clientState"]
+  ) {
+    context.commit("updateClient", clientState);
   },
-  [UPDATE_CLIENT_DATA](context: any, clientData: StateProps["clientData"]) {
-    context.commit("UPDATE_CLIENT_DATA", clientData);
+  [UPDATE_CLIENT_DATA](
+    context: ActionContext<StateProps, StateProps>,
+    clientData: StateProps["clientData"]
+  ) {
+    context.commit("updateClientData", clientData);
   },
-  [UPDATE_EMAIL](context: any, email: string) {
-    context.commit("UPDATE_EMAIL", email);
+  [UPDATE_EMAIL](
+    context: ActionContext<StateProps, StateProps>,
+    email: string
+  ) {
+    context.commit("updateEmail", email);
   },
-  [UPDATE_TELEGRAM](context: any, telegram: string) {
-    context.commit("UPDATE_TELEGRAM", telegram);
+  [UPDATE_TELEGRAM](
+    context: ActionContext<StateProps, StateProps>,
+    telegram: string
+  ) {
+    context.commit("updateTelegram", telegram);
   },
-  [UPDATE_IS_SUBSCRIBED](context: any, isSubscribed: boolean) {
-    context.commit("UPDATE_IS_SUBSCRIBED", isSubscribed);
+  [UPDATE_IS_SUBSCRIBED](
+    context: ActionContext<StateProps, StateProps>,
+    isSubscribed: boolean
+  ) {
+    context.commit("updateIsSubscribed", isSubscribed);
   },
-  [UPDATE_WALLET_STORE](context: any, walletStore: MessageSignerWalletAdapter) {
-    context.commit("UPDATE_WALLET_STORE", walletStore);
+  [UPDATE_WALLET_STORE](
+    context: ActionContext<StateProps, StateProps>,
+    walletStore: MessageSignerWalletAdapter
+  ) {
+    context.commit("updateWalletStore", walletStore);
   },
 };
 

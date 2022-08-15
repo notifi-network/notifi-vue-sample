@@ -52,8 +52,16 @@
             telegramId,
           })
         "
-        label="Subscribe"
-      />
+      >
+        {{
+          clientData == null ||
+          clientData.alerts?.find(
+            (a: Alert) => a.name === "Vue Sample Alert"
+          ) == undefined
+            ? "Subscribe"
+            : "Save Changes"
+        }}
+      </Button>
     </div>
     <div>
       <Panel v-if="clientData" header="Debug Data">
@@ -66,6 +74,7 @@
 <script lang="ts">
 import type { handleSubmitProps } from "../modules/Subscribe";
 import { handleSubmit, handleLogin } from "../modules/Subscribe";
+import type { Alert } from "@notifi-network/notifi-core";
 import Button from "primevue/button";
 import InputSwitch from "primevue/inputswitch";
 import InputText from "primevue/inputtext";
